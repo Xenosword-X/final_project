@@ -1,0 +1,1 @@
+https://hexschool.github.io/vue3-courses-swaggerDoc/
