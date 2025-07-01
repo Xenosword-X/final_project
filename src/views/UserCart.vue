@@ -2,6 +2,14 @@
   <Loading :active="isLoading"></Loading>
   <div class="container">
     <div class="mt-4">
+        <select class="form-select mb-3" aria-label="product-category"
+        v-model="selectedCategory">
+            <option value="" disabled>請選擇類別</option>
+            <option value="">全部</option>
+            <option value="主機">主機</option>
+            <option value="遊戲">遊戲</option>
+            <option value="配件">配件</option>
+        </select>
         <div class="row row-cols-1 row-cols-md-3 g-4">
           <div class="col" v-for="item in paginatedProducts" :key="item.id">
             <div class="card h-100">
@@ -19,8 +27,8 @@
                 <p class="card-text">
                   <span v-if="!item.price">{{ item.origin_price }} 元</span>
                   <span v-else>
-                    <del class="text-muted">原價 {{ item.origin_price }} 元</del><br>
-                    <strong class="text-danger">現在只要 {{ item.price }} 元</strong>
+                    <del class="text-muted">原價 {{ $filters.currency(item.origin_price) }} 元</del><br>
+                    <strong class="text-danger">現在只要 {{ $filters.currency(item.price) }} 元</strong>
                   </span>
                 </p>
                 <div class="d-flex justify-content-between">
@@ -65,6 +73,7 @@ export default {
     return {
       products: [],
       product: {},
+      selectedCategory: '', // 選擇的商品種類
       status: {
         loadingItem: ''
       },
@@ -73,13 +82,19 @@ export default {
     }
   },
   computed: {
-    paginatedProducts () {
+    filteredProducts () { // 商品分類
+      if (this.selectedCategory) {
+        return this.products.filter(product => product.category === this.selectedCategory)
+      }
+      return this.products // 如果沒選分類，就顯示全部
+    },
+    paginatedProducts () { // 規劃出每頁要選染的商品
       const start = (this.currentPage - 1) * this.perPage
       const end = start + this.perPage
-      return this.products.slice(start, end)
+      return this.filteredProducts.slice(start, end)
     },
-    totalPages () {
-      return Math.ceil(this.products.length / this.perPage)
+    totalPages () { // 計算總頁數
+      return Math.ceil(this.filteredProducts.length / this.perPage)
     }
   },
   methods: {

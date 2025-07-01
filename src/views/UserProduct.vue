@@ -15,9 +15,9 @@
         <img :src="product.imageUrl" alt="" class="img-fluid mb-3">
       </article>
       <div class="col-4">
-        <div class="h5" v-if="!product.price">{{ product.origin_price }} 元</div>
-        <del class="h6" v-if="product.price">原價 {{ product.origin_price }} 元</del>
-        <div class="h5" v-if="product.price">現在只要 {{ product.price }} 元</div>
+        <div class="h5" v-if="!product.price">{{ $filters.currency(product.origin_price) }} 元</div>
+        <del class="h6" v-if="product.price">原價 {{ $filters.currency(product.origin_price) }} 元</del>
+        <div class="h5 text-danger" v-if="product.price">現在只要 {{ $filters.currency(product.price) }} 元</div>
         <hr>
         <button type="button" class="btn btn-outline-danger"
                 @click="addToCart(product.id)">
