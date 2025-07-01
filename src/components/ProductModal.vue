@@ -82,13 +82,16 @@
               <div class="row gx-2">
                 <div class="mb-3 col-md-6">
                   <label for="category" class="form-label">分類</label>
-                  <input
-                    type="text"
-                    class="form-control"
+                  <select
+                    class="form-select"
                     id="category"
                     v-model="tempProduct.category"
-                    placeholder="請輸入分類"
-                  />
+                  >
+                    <option disabled value="">請選擇分類</option>
+                    <option value="主機">主機</option>
+                    <option value="遊戲">遊戲</option>
+                    <option value="配件">配件</option>
+                  </select>
                 </div>
                 <div class="mb-3 col-md-6">
                   <label for="price" class="form-label">單位</label>

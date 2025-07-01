@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import ToastMessage from '@/mixins/ToastMessage'
 export default {
   data () {
     return {
@@ -55,9 +56,15 @@ export default {
             const { token, expired } = res.data
             document.cookie = `hexToken=${token}; expires=${new Date(expired)}`
             this.$router.push('/dashboard/products')
+          } else {
+            this.showToast('error', '登入失敗，請檢查帳號密碼')
           }
         })
+        .catch(() => {
+          this.showToast('error', '無法連線到伺服器，請稍後再試')
+        })
     }
-  }
+  },
+  mixins: [ToastMessage]
 }
 </script>

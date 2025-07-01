@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
-    <router-link to="/login">管理員登入</router-link>
+    <router-link to="/login">管理員登入</router-link> /
+    <router-link to="/user/cart">購買頁面</router-link>
     <h1>{{ msg }}</h1>
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
