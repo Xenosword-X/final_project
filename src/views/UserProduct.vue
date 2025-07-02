@@ -9,19 +9,19 @@
     </nav>
     <div class="row justify-content-center">
       <article class="col-8">
-        <h2>{{ product.title }}</h2>
+        <!-- <h2>{{ product.title }}</h2> -->
         <img :src="product.imageUrl" alt="" class="img-fluid mb-3">
       </article>
       <div class="col-4">
         <!-- 商品內容說明 -->
         <div class="mb-3">
-          <p class="text-muted">{{ product.description }}</p>
+          <p class="text-muted h2">{{ product.title }}</p>
           <p class="mt-1">{{ product.content }}</p>
         </div>
         <!-- 價格資訊 -->
         <div class="h5" v-if="!product.price">{{ $filters.currency(product.origin_price) }} 元</div>
         <del class="h6" v-if="product.price">原價 {{ $filters.currency(product.origin_price) }} 元</del>
-        <div class="h5 text-danger" v-if="product.price">現在只要 {{ $filters.currency(product.price) }} 元</div>
+        <div class="h5 text-danger" v-if="product.price">特價 {{ $filters.currency(product.price) }} 元</div>
         <!-- 庫存提示 -->
         <div>
           <template v-if="product.num < 5">
@@ -51,7 +51,7 @@
         </button>
       </div>
     </div>
-    <div v-if="isYouTubeUrl(product.description)" class="ratio ratio-16x9 mb-3">
+    <div v-if="isYouTubeUrl(product.description)" class="ratio ratio-16x9 my-3">
       <iframe
         :src="embedYouTubeUrl(product.description)"
         title="YouTube video"

@@ -29,7 +29,7 @@
                   <span v-if="!item.price">{{ item.origin_price }} 元</span>
                   <span v-else>
                     <del class="text-muted">原價 {{ $filters.currency(item.origin_price) }} 元</del><br>
-                    <strong class="text-danger">現在只要 {{ $filters.currency(item.price) }} 元</strong>
+                    <strong class="text-danger">特價 {{ $filters.currency(item.price) }} 元</strong>
                   </span><br />
                   <span>
                     <template v-if="item.num < 5">
