@@ -130,7 +130,7 @@
               <hr />
 
               <div class="mb-3">
-                <label for="description" class="form-label">產品描述</label>
+                <label for="description" class="form-label">產品介紹影片</label>
                 <textarea
                   type="text"
                   class="form-control"
@@ -198,7 +198,9 @@ export default {
   data () {
     return {
       modal: {},
-      tempProduct: {}
+      tempProduct: {
+        imagesUrl: []
+      }
     }
   },
   methods: {

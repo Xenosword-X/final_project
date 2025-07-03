@@ -9,31 +9,18 @@
     </nav>
     <div class="row justify-content-center">
       <article class="col-8">
-        <h2>{{ product.title }}</h2>
         <img :src="product.imageUrl" alt="" class="img-fluid mb-3">
       </article>
       <div class="col-4">
         <!-- 商品內容說明 -->
         <div class="mb-3">
-          <p class="text-muted">{{ product.description }}</p>
+          <p class="text-muted h2">{{ product.title }}</p>
           <p class="mt-1">{{ product.content }}</p>
         </div>
         <!-- 價格資訊 -->
         <div class="h5" v-if="!product.price">{{ $filters.currency(product.origin_price) }} 元</div>
         <del class="h6" v-if="product.price">原價 {{ $filters.currency(product.origin_price) }} 元</del>
-        <div class="h5 text-danger" v-if="product.price">現在只要 {{ $filters.currency(product.price) }} 元</div>
-        <!-- 庫存提示 -->
-        <div>
-          <template v-if="product.num < 5">
-            ⚠️ 庫存僅剩 {{ product.num }} 個，欲購從速！
-          </template>
-          <template v-else-if="product.num >= 10">
-            ✅ 庫存充足（>=10）
-          </template>
-          <template v-else>
-            庫存 (>=5)
-          </template>
-        </div>
+        <div class="h5 text-danger" v-if="product.price">特價 {{ $filters.currency(product.price) }} 元</div>
         <hr>
         <p class="mb-3 fw-bold">付款方式: 信用卡</p>
         <p class="mb-1 fw-bold">運送方式：</p>
@@ -51,19 +38,13 @@
         </button>
       </div>
     </div>
-    <div v-if="isYouTubeUrl(product.description)" class="ratio ratio-16x9 mb-3">
-      <iframe
-        :src="embedYouTubeUrl(product.description)"
-        title="YouTube video"
-        allowfullscreen
-      ></iframe>
-    </div>
-    <p v-else>{{ product.description }}</p>
+    <ProductTab :youtubeUrl="product.description" />
   </div>
 </template>
 
 <script>
 import ToastMessage from '@/mixins/ToastMessage'
+import ProductTab from '@/components/ProductTab.vue'
 export default {
   data () {
     return {
@@ -71,6 +52,9 @@ export default {
       id: '',
       isLoading: false
     }
+  },
+  components: {
+    ProductTab
   },
   methods: {
     getProduct () {
@@ -98,22 +82,6 @@ export default {
           this.showToast('success', '已加入購物車')
           this.$router.push('/user/cart')
         })
-    },
-    // 判斷是否為 YouTube 網址
-    isYouTubeUrl (url) {
-      if (typeof url !== 'string') return false
-      return url.includes('youtube.com/watch') || url.includes('youtu.be/')
-    },
-    // 將網址轉換為 YouTube 嵌入網址
-    embedYouTubeUrl (url) {
-      let videoId = ''
-      if (url.includes('youtube.com/watch')) {
-        const urlParams = new URLSearchParams(url.split('?')[1])
-        videoId = urlParams.get('v')
-      } else if (url.includes('youtu.be/')) {
-        videoId = url.split('youtu.be/')[1]
-      }
-      return `https://www.youtube.com/embed/${videoId}`
     }
   },
   created () {

@@ -29,18 +29,7 @@
                   <span v-if="!item.price">{{ item.origin_price }} 元</span>
                   <span v-else>
                     <del class="text-muted">原價 {{ $filters.currency(item.origin_price) }} 元</del><br>
-                    <strong class="text-danger">現在只要 {{ $filters.currency(item.price) }} 元</strong>
-                  </span><br />
-                  <span>
-                    <template v-if="item.num < 5">
-                      ⚠️ 庫存僅剩 {{ item.num }} 個，欲購從速！
-                    </template>
-                    <template v-else-if="item.num >= 10">
-                      ✅ 庫存充足（>=10）
-                    </template>
-                    <template v-else>
-                      庫存 (>=5)
-                    </template>
+                    <strong class="text-danger">特價 {{ $filters.currency(item.price) }} 元</strong>
                   </span>
                 </p>
                 <div class="d-flex justify-content-between">
@@ -98,7 +87,7 @@
                 <td>
                   <button type="button" class="btn btn-outline-danger btn-sm"
                           :disabled="status.loadingItem === item.id"
-                          @click="removeCartItem(item.id)">
+                          @click="delCartItem(item.id)">
                     <i class="bi bi-x"></i>
                   </button>
                 </td>
@@ -110,8 +99,8 @@
                 </td>
                 <td>
                   <div class="input-group input-group-sm">
-                    <input type="number" class="form-control"
-                          v-model.number="item.qty">
+                    <input type="number" class="form-control" min="1" @change="updateCart(item)"
+                          v-model.number="item.qty" :disabled="item.id === status.loadingItem">
                     <div class="input-group-text">/ {{ item.product.unit }}</div>
                   </div>
                 </td>
@@ -124,7 +113,11 @@
             </tbody>
             <tfoot>
             <tr>
-              <td colspan="3" class="text-end">總計</td>
+              <td v-if="cart.carts && cart.carts.length" class="text-start">
+                <button class="btn btn-outline-danger text-nowrap" type="button"
+                @click="delAllCart()">清空購物車</button>
+              </td>
+              <td :colspan="cart.carts && cart.carts.length ? 2 : 3" class="text-end">總計</td>
               <td class="text-end">{{ $filters.currency(cart.total) }}</td>
             </tr>
             <tr v-if="cart.final_total !== cart.total">
@@ -144,6 +137,56 @@
         </div>
       </div>
     </div>
+    <!-- 結帳表單 -->
+    <div class="my-5 row justify-content-center">
+      <Form class="col-md-6" v-slot="{ errors }"
+            @submit="createOrder">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <Field id="email" name="email" type="email" class="form-control"
+                   :class="{ 'is-invalid': errors['email'] }"
+                   placeholder="請輸入 Email" rules="email|required"
+                   v-model="form.user.email"></Field>
+          <ErrorMessage name="email" class="invalid-feedback"></ErrorMessage>
+        </div>
+
+        <div class="mb-3">
+          <label for="name" class="form-label">收件人姓名</label>
+          <Field id="name" name="姓名" type="text" class="form-control"
+                   :class="{ 'is-invalid': errors['姓名'] }"
+                   placeholder="請輸入姓名" rules="required"
+                   v-model="form.user.name"></Field>
+          <ErrorMessage name="姓名" class="invalid-feedback"></ErrorMessage>
+        </div>
+
+        <div class="mb-3">
+          <label for="tel" class="form-label">收件人電話</label>
+          <Field id="tel" name="電話" type="tel" class="form-control"
+                   :class="{ 'is-invalid': errors['電話'] }"
+                   placeholder="請輸入電話" rules="required"
+                   v-model="form.user.tel"></Field>
+          <ErrorMessage name="電話" class="invalid-feedback"></ErrorMessage>
+        </div>
+
+        <div class="mb-3">
+          <label for="address" class="form-label">收件人地址</label>
+          <Field id="address" name="地址" type="text" class="form-control"
+                   :class="{ 'is-invalid': errors['地址'] }"
+                   placeholder="請輸入地址" rules="required"
+                   v-model="form.user.address"></Field>
+          <ErrorMessage name="地址" class="invalid-feedback"></ErrorMessage>
+        </div>
+
+        <div class="mb-3">
+          <label for="message" class="form-label">留言</label>
+          <textarea name="" id="message" class="form-control" cols="30" rows="10"
+                    v-model="form.message"></textarea>
+        </div>
+        <div class="text-end">
+          <button class="btn btn-danger">送出訂單</button>
+        </div>
+      </Form>
+    </div>
   </div>
 </template>
 
@@ -161,7 +204,17 @@ export default {
       cart: {},
       coupon_code: '',
       currentPage: 1, // 當前頁碼
-      perPage: 9 // 每頁顯示幾筆
+      perPage: 9, // 每頁顯示幾筆
+      // 表單元件
+      form: {
+        user: {
+          name: '',
+          email: '',
+          tel: '',
+          address: ''
+        },
+        message: ''
+      }
     }
   },
   computed: {
@@ -212,6 +265,62 @@ export default {
           console.log(err)
         })
     },
+    updateCart (item) { // 更新購物車商品數量
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${item.id}`
+      this.isLoading = true
+      this.status.loadingItem = item.id
+      const cart = {
+        product_id: item.product_id,
+        qty: item.qty
+      }
+      this.$http.put(api, { data: cart })
+        .then(res => {
+          console.log(res)
+          this.status.loadingItem = ''
+          this.isLoading = false
+          this.getCart()
+        })
+    },
+    delCartItem (id) {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`
+      this.isLoading = true
+      this.status.loadingItem = id
+      this.$http.delete(api, id)
+        .then(res => {
+          console.log(res)
+          this.showToast('success', '商品已刪除')
+          this.status.loadingItem = ''
+          this.getCart()
+          this.isLoading = false
+        })
+    },
+    delAllCart () {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/carts`
+      this.isLoading = true
+      this.$http.delete(api)
+        .then(res => {
+          console.log(res)
+          this.showToast('success', '已清空購物車')
+          this.getCart()
+          this.isLoading = false
+        })
+    },
+    addCouponCode () {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/coupon`
+      const coupon = { code: this.coupon_code }
+      this.isLoading = true
+      this.$http.post(api, { data: coupon })
+        .then(res => {
+          console.log(res)
+          this.showToast('success', '已成功加入優惠券')
+          this.getCart()
+          this.isLoading = false
+        })
+        .catch((err) => {
+          console.log(err)
+          this.showToast('error', '該優惠券不存在')
+        })
+    },
     getCart () {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`
       this.isLoading = true
@@ -220,6 +329,18 @@ export default {
         this.cart = res.data.data
         this.isLoading = false
       })
+    },
+    createOrder () {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/order`
+      const order = this.form
+      this.isLoading = true
+      this.$http.post(api, { data: order })
+        .then(res => {
+          console.log(res)
+          this.showToast('success', '已送出訂單')
+          const orderId = res.data.orderId
+          this.$router.push(`/user/checkout/${orderId}`)
+        })
     }
   },
   created () {

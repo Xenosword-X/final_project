@@ -127,6 +127,9 @@ export default {
       const date = new Date(num * 1000)
       return date.toISOString().split('T')[0]
     }
+  },
+  created () {
+    this.getOrders()
   }
 }
 </script>
