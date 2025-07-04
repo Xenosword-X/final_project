@@ -1,38 +1,33 @@
 <template>
-  <div class="container mt-5">
-    <form class="row justify-content-center"
-      @submit.prevent="signIn">
-      <div class="col-md-6">
-        <h1 class="h3 mb-3 font-weight-normal">請先登入</h1>
-        <div class="mb-2">
-          <label for="inputEmail" class="sr-only">Email address</label>
-          <input
-            type="email"
-            id="inputEmail"
-            class="form-control"
-            placeholder="Email address"
-            required
-            autofocus
-            v-model="user.username"
-          />
+  <div class="login-page d-flex align-items-center justify-content-center vh-100 bg-light">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 420px; border-radius: 1rem;">
+      <div class="card-body">
+        <div class="text-center mb-4">
+          <div class="display-6 mb-2">🔐 管理員登入</div>
+          <p class="text-muted">請輸入帳號與密碼</p>
         </div>
-        <div class="mb-2">
-          <label for="inputPassword" class="sr-only">Password</label>
-          <input
-            type="password"
-            id="inputPassword"
-            class="form-control"
-            placeholder="Password"
-            required
-            v-model="user.password"
-          />
-        </div>
-
-        <div class="text-end mt-4">
-          <button class="btn btn-lg btn-primary btn-block" type="submit">登入</button>
-        </div>
+        <form @submit.prevent="signIn">
+          <div class="mb-3">
+            <label for="inputEmail" class="form-label">Email 信箱</label>
+            <input type="email" id="inputEmail" class="form-control"
+              placeholder="admin@example.com" required autofocus v-model="user.username"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="inputPassword" class="form-label">密碼</label>
+            <input type="password" id="inputPassword" class="form-control"
+              placeholder="請輸入密碼" required v-model="user.password"
+            />
+          </div>
+          <div class="d-grid mt-4">
+            <router-link to="/" class="btn btn-secondary btn-lg" type="submit">回到首頁</router-link>
+          </div>
+          <div class="d-grid mt-4">
+            <button class="btn btn-primary btn-lg" type="submit">登入</button>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -56,15 +51,20 @@ export default {
             const { token, expired } = res.data
             document.cookie = `hexToken=${token}; expires=${new Date(expired)}`
             this.$router.push('/dashboard/products')
-          } else {
-            this.showToast('error', '登入失敗，請檢查帳號密碼')
           }
         })
-        .catch(() => {
-          this.showToast('error', '無法連線到伺服器，請稍後再試')
+        .catch((err) => {
+          this.showToast('error', '登入失敗，請確認帳號密碼是否正確')
+          console.error('登入錯誤：', err)
         })
     }
   },
   mixins: [ToastMessage]
 }
 </script>
+
+<style scoped>
+.login-page {
+  background: linear-gradient(135deg, #e0eafc, #cfdef3);
+}
+</style>

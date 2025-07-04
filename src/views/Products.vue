@@ -1,50 +1,53 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <Loading :active="isLoading"></Loading> <!-- 載入外部Loading元件效果 -->
-  <div class="text-end">
-    <button class="btn btn-primary" type="button" @click="openModal(true)">
-      增加一個產品
+  <Loading :active="isLoading" />
+  <div class="d-flex justify-content-between align-items-center my-4">
+    <h2 class="h4 fw-bold mb-0">產品管理</h2>
+    <button class="btn btn-primary d-flex align-items-center gap-1" @click="openModal(true)">
+      <i class="bi bi-plus-circle"></i> 增加產品
     </button>
   </div>
-  <table class="table mt-4">
-  <thead>
-    <tr>
-      <th width="120">分類</th>
-      <th>產品名稱</th>
-      <th width="120">原價</th>
-      <th width="120">售價</th>
-      <th width="100">是否啟用</th>
-      <th width="200">編輯</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr v-for="item in products" :key="item.id">
-      <td>{{ item.category}}</td>
-      <td>{{ item.title }}</td>
-      <td class="text-right">
-        {{ $filters.currency(item.origin_price) }}
-      </td>
-      <td class="text-right">
-        {{ $filters.currency(item.price) }}
-      </td>
-      <td>
-        <span class="text-success" v-if="item.is_enabled">啟用</span>
-        <span class="text-muted" v-else>未啟用</span>
-      </td>
-      <td>
-        <div class="btn-group">
-          <button class="btn btn-outline-primary btn-sm"
-          @click="openModal(false, item)">編輯</button>
-          <button class="btn btn-outline-danger btn-sm"
-          @click="openDelProductModal(item)">刪除</button>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-  </table>
-  <pagination :pages="pagination" @emit-pages="getProducts"></pagination>
+  <div class="table-responsive">
+    <table class="table table-hover align-middle text-nowrap">
+      <thead class="table-light">
+        <tr>
+          <th width="120">分類</th>
+          <th>產品名稱</th>
+          <th width="120" class="text-start">原價</th>
+          <th width="120" class="text-start">售價</th>
+          <th width="100" class="text-center">狀態</th>
+          <th width="200" class="text-center">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in products" :key="item.id">
+          <td>{{ item.category }}</td>
+          <td>{{ item.title }}</td>
+          <td class="text-start">{{ $filters.currency(item.origin_price) }}</td>
+          <td class="text-start">{{ $filters.currency(item.price) }}</td>
+          <td class="text-center">
+            <span class="badge" :class="item.is_enabled ? 'bg-success' : 'bg-secondary'">
+              {{ item.is_enabled ? '啟用' : '未啟用' }}
+            </span>
+          </td>
+          <td class="text-center">
+            <div class="btn-group">
+              <button class="btn btn-outline-primary btn-sm" @click="openModal(false, item)">
+                <i class="bi bi-pencil-square"></i> 編輯
+              </button>
+              <button class="btn btn-outline-danger btn-sm" @click="openDelProductModal(item)">
+                <i class="bi bi-trash"></i> 刪除
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <pagination :pages="pagination" @emit-pages="getProducts" />
   <ProductModal ref="productModal" :product="tempProduct" :isNew="isNew"
-  @update-product="updateProduct"></ProductModal>
+    @update-product="updateProduct"
+  />
   <DelModal :item="tempProduct" ref="delModal" @del-item="delProduct"/>
 </template>
 
@@ -52,6 +55,7 @@
 import ProductModal from '@/components/ProductModal.vue'
 import DelModal from '@/components/DelModal.vue'
 import Pagination from '@/components/Pagination.vue'
+import ToastMessage from '@/mixins/ToastMessage'
 export default {
   data () {
     return {
@@ -68,12 +72,11 @@ export default {
     DelModal,
     Pagination
   },
-  inject: ['emitter'],
   methods: {
     getProducts (page = 1) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products?page=${page}`
       this.isLoading = true /* 讀取時顯示Loading效果 */
-      this.$http.get(api).then((res) => {
+      this.$http.get(api).then(res => {
         if (res.data.success) {
           this.isLoading = false /* 讀取完畢時關閉Loading效果 */
           console.log(res.data)
@@ -109,17 +112,14 @@ export default {
           productComponent.hideModal()
           if (res.data.success) {
             this.getProducts()
-            this.emitter.emit('push-message', {
-              style: 'success',
-              title: '更新成功'
-            })
+            this.showToast('success', '更新成功')
           } else {
-            this.emitter.emit('push-message', {
-              style: 'danger',
-              title: '更新失敗',
-              content: res.data.message.join('、')
-            })
+            this.showToast('error', '更新失敗，請確認是否有欄位未填寫')
           }
+        })
+        .catch((err) => {
+          this.showToast('error', '更新失敗，請確認是否有欄位未填寫')
+          console.error('更新錯誤：', err)
         })
     },
     // 開啟刪除 ModalAdd commentMore actions
@@ -140,6 +140,7 @@ export default {
   },
   created () {
     this.getProducts()
-  }
+  },
+  mixins: [ToastMessage]
 }
 </script>

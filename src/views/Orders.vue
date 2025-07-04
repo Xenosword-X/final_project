@@ -1,60 +1,69 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <Loading :active="isLoading"></Loading>
-  <table class="table mt-4">
-    <thead>
-    <tr>
-      <th>購買時間</th>
-      <th>Email</th>
-      <th>購買款項</th>
-      <th>應付金額</th>
-      <th>是否付款</th>
-      <th>編輯</th>
-    </tr>
-    </thead>
-    <tbody v-if="orders.length">
-      <template v-for="(item, key) in orders" :key="key">
-        <tr v-if="orders.length"
-            :class="{'text-secondary': !item.is_paid}">
+  <Loading :active="isLoading" />
+
+  <h2 class="h4 fw-bold mt-4 mb-3">訂單管理</h2>
+
+  <div class="table-responsive">
+    <table class="table table-hover align-middle text-nowrap">
+      <thead class="table-light">
+        <tr>
+          <th>購買時間</th>
+          <th>Email</th>
+          <th>購買項目</th>
+          <th class="text-end">應付金額</th>
+          <th class="text-center">付款狀態</th>
+          <th class="text-center">操作</th>
+        </tr>
+      </thead>
+      <tbody v-if="orders.length">
+        <tr v-for="(item, key) in orders" :key="key" :class="{ 'text-muted': !item.is_paid }">
           <td>{{ formatDate(item.create_at) }}</td>
-          <td><span v-text="item.user.email" v-if="item.user"></span></td>
+          <td>{{ item.user?.email || '無資料' }}</td>
           <td>
-            <ul class="list-unstyled">
+            <ul class="list-unstyled mb-0">
               <li v-for="(product, i) in item.products" :key="i">
-                {{ product.product.title }} 數量：{{ product.qty }}
-                {{ product.product.unit }}
+                {{ product.product.title }} × {{ product.qty }} {{ product.product.unit }}
               </li>
             </ul>
           </td>
-          <td class="text-right">{{ item.total }}</td>
-          <td>
-            <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" :id="`paidSwitch${item.id}`"
-                     v-model="item.is_paid"
-                     @change="updatePaid(item)">
-              <label class="form-check-label" :for="`paidSwitch${item.id}`">
-                <span v-if="item.is_paid">已付款</span>
-                <span v-else>未付款</span>
-              </label>
+          <td class="text-end">{{ $filters.currency(item.total) }}</td>
+          <td class="text-center">
+            <div class="d-flex flex-column align-items-center">
+              <span
+                class="badge mb-1"
+                :class="item.is_paid ? 'bg-success' : 'bg-secondary'">
+                {{ item.is_paid ? '已付款' : '未付款' }}
+              </span>
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  :id="`paidSwitch${item.id}`"
+                  v-model="item.is_paid"
+                  @change="updatePaid(item)"
+                />
+              </div>
             </div>
           </td>
-          <td>
+          <td class="text-center">
             <div class="btn-group">
-              <button class="btn btn-outline-primary btn-sm"
-                      @click="openModal(item)">檢視</button>
-              <button class="btn btn-outline-danger btn-sm"
-                      @click="openDelOrderModal(item)"
-              >刪除</button>
+              <button class="btn btn-outline-primary btn-sm" @click="openModal(item)">
+                <i class="bi bi-eye"></i> 檢視
+              </button>
+              <button class="btn btn-outline-danger btn-sm" @click="openDelOrderModal(item)">
+                <i class="bi bi-trash"></i> 刪除
+              </button>
             </div>
           </td>
         </tr>
-      </template>
-    </tbody>
-  </table>
-  <OrderModal :order="tempOrder"
-              ref="orderModal" @update-paid="updatePaid"></OrderModal>
-  <DelModal :item="tempOrder" ref="delModal" @del-item="delOrder"></DelModal>
-  <Pagination :pages="pagination" @emit-pages="getOrders"></Pagination>
+      </tbody>
+    </table>
+  </div>
+
+  <OrderModal :order="tempOrder" ref="orderModal" @update-paid="updatePaid"/>
+  <DelModal :item="tempOrder" ref="delModal" @del-item="delOrder"/>
+  <Pagination :pages="pagination" @emit-pages="getOrders"/>
 </template>
 
 <script>

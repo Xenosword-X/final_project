@@ -1,46 +1,54 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div>
-    <Loading :active="isLoading"></Loading>
-    <div class="text-end mt-4">
-      <button class="btn btn-primary" @click="openCouponModal(true)">
-        建立新的優惠券
+  <div>
+    <Loading :active="isLoading" />
+
+    <div class="d-flex justify-content-between align-items-center my-4">
+      <h2 class="h4 fw-bold mb-0">優惠券管理</h2>
+      <button class="btn btn-primary d-flex align-items-center gap-1" @click="openCouponModal(true)">
+        <i class="bi bi-plus-circle"></i> 建立新的優惠券
       </button>
     </div>
-    <table class="table mt-4">
-      <thead>
-      <tr>
-        <th>名稱</th>
-        <th>折扣百分比</th>
-        <th>到期日</th>
-        <th>是否啟用</th>
-        <th>編輯</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="(item, key) in coupons" :key="key">
-        <td>{{ item.title }}</td>
-        <td>{{ item.percent }}%</td>
-        <td>{{ formatDate(item.due_date) }}</td>
-        <td>
-          <span v-if="item.is_enabled === 1" class="text-success">啟用</span>
-          <span v-else class="text-muted">未啟用</span>
-        </td>
-        <td>
-          <div class="btn-group">
-            <button class="btn btn-outline-primary btn-sm"
-                    @click="openCouponModal(false, item)"
-            >編輯</button>
-            <button class="btn btn-outline-danger btn-sm"
-                    @click="openDelCouponModal(item)"
-            >刪除</button>
-          </div>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+
+    <div class="table-responsive">
+      <table class="table table-hover align-middle text-nowrap">
+        <thead class="table-light">
+          <tr>
+            <th>名稱</th>
+            <th class="text-center">折扣百分比</th>
+            <th class="text-center">到期日</th>
+            <th class="text-center">狀態</th>
+            <th class="text-center">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, key) in coupons" :key="key">
+            <td>{{ item.title }}</td>
+            <td class="text-center">{{ item.percent }}%</td>
+            <td class="text-center">{{ formatDate(item.due_date) }}</td>
+            <td class="text-center">
+              <span class="badge" :class="item.is_enabled === 1 ? 'bg-success' : 'bg-secondary'">
+                {{ item.is_enabled === 1 ? '啟用' : '未啟用' }}
+              </span>
+            </td>
+            <td class="text-center">
+              <div class="btn-group">
+                <button class="btn btn-outline-primary btn-sm" @click="openCouponModal(false, item)">
+                  <i class="bi bi-pencil-square"></i> 編輯
+                </button>
+                <button class="btn btn-outline-danger btn-sm" @click="openDelCouponModal(item)">
+                  <i class="bi bi-trash"></i> 刪除
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
     <CouponModal :coupon="tempCoupon" ref="couponModal" :isNew="isNew"
-    @update-coupon="updateCoupon"/>
+      @update-coupon="updateCoupon"
+    />
     <DelModal :item="tempCoupon" ref="delModal" @del-item="delCoupon"/>
   </div>
 </template>
