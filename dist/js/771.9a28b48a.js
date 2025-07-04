@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkfinal_project"]=self["webpackChunkfinal_project"]||[]).push([[771],{3771:function(n,r,e){e.r(r),e.d(r,{default:function(){return i}});var t=e(6768);const c={class:"container"};function u(n,r){return(0,t.uX)(),(0,t.CE)("div",c," 客製專區 ")}var a=e(1241);const s={},f=(0,a.A)(s,[["render",u]]);var i=f}}]);
+//# sourceMappingURL=771.9a28b48a.js.map
