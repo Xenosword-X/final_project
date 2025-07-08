@@ -5,8 +5,11 @@
     <div class="row">
       <!-- 左側 Logo + Info -->
       <div class="col-md-4 mb-4 mb-md-0">
-        <h5 class="mb-3">Logo</h5>
-        <p class="mb-1">聯絡我們：service@example.com</p>
+        <h5 class="mb-3">
+          <img :src="require('@/assets/LOGO.svg')" alt="GameZone Logo"
+          style="width: 300px; width: 200px"/>
+        </h5>
+        <p class="mb-1">公司信箱：service@example.com</p>
         <p>電話：02-1234-5678</p>
       </div>
 
@@ -36,6 +39,9 @@
   </div>
 </footer>
 </template>
+
+<script>
+</script>
 
 <style scoped>
   .socialLink{

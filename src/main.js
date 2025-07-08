@@ -16,6 +16,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js' // 導入BS5元件功能
 
 import App from './App.vue'
 import router from './router'
+import ToastMessage from '@/mixins/ToastMessage'
 import { currency } from './methods/filter'
 
 const app = createApp(App)
@@ -37,6 +38,7 @@ setLocale('zh_TW')
 
 app.use(VueAxios, axios)
 app.use(router)
+app.mixin(ToastMessage)
 // eslint-disable-next-line vue/multi-word-component-names
 app.component('Loading', Loading)
 app.component('Form', Form)

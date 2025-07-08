@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import ToastMessage from '@/mixins/ToastMessage'
 export default {
   data () {
     return {
@@ -58,8 +57,7 @@ export default {
           console.error('登入錯誤：', err)
         })
     }
-  },
-  mixins: [ToastMessage]
+  }
 }
 </script>
 

@@ -1,8 +1,9 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-0 sticky-top">
     <div class="container">
-      <router-link class="navbar-brand fw-bold text-primary" to="/">
-        GameZone
+      <router-link class="navbar-brand fw-bold text-primary logo-link" to="/">
+        <img :src="require('@/assets/LOGO.svg')" alt="GameZone Logo" class="img-fluid"
+        style="width: auto; height: 50px;"/>
       </router-link>
       <!-- 手機版漢堡選單按鈕 -->
       <button
@@ -25,7 +26,7 @@
             </router-link>
           </li>
           <li class="nav-item mx-2">
-            <router-link to="/customize" class="nav-link">
+            <router-link to="/customize/CInfo" class="nav-link">
               客製服務 <i class="bi bi-wrench-adjustable"></i>
             </router-link>
           </li>
@@ -46,6 +47,9 @@
 </template>
 
 <style scoped>
+.logo-link {
+  padding: 0;
+}
 .navbar-nav .nav-link {
   transition: color 0.2s;
 }

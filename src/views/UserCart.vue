@@ -14,8 +14,7 @@
         <div class="row row-cols-1 row-cols-md-3 g-4">
           <div class="col" v-for="item in paginatedProducts" :key="item.id">
             <div class="card h-100">
-              <div
-                class="card-img-top"
+              <div class="card-img-top"
                 :style="{
                   height: '400px',
                   backgroundImage: `url(${item.imageUrl})`,
@@ -191,7 +190,6 @@
 </template>
 
 <script>
-import ToastMessage from '@/mixins/ToastMessage'
 export default {
   data () {
     return {
@@ -346,7 +344,6 @@ export default {
   created () {
     this.getProducts()
     this.getCart()
-  },
-  mixins: [ToastMessage]
+  }
 }
 </script>

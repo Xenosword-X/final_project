@@ -3,7 +3,7 @@
   v-if="
     $route.path.startsWith('/user') ||
     $route.path === '/' ||
-    $route.path === '/customize' ||
+    $route.path.startsWith('/customize') ||
     $route.path === '/questions'
   "
   />
@@ -12,7 +12,7 @@
   v-if="
     $route.path.startsWith('/user') ||
     $route.path === '/' ||
-    $route.path === '/customize' ||
+    $route.path.startsWith('/customize') ||
     $route.path === '/questions'
   "
   ></Footer>
@@ -20,7 +20,7 @@
 
 <script>
 import UserNavbar from './components/UserNavbar.vue'
-import Footer from './views/Footer.vue'
+import Footer from './components/Footer.vue'
 export default {
   components: {
     UserNavbar,

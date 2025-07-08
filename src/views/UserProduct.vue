@@ -43,7 +43,6 @@
 </template>
 
 <script>
-import ToastMessage from '@/mixins/ToastMessage'
 import ProductTab from '@/components/ProductTab.vue'
 export default {
   data () {
@@ -87,7 +86,6 @@ export default {
   created () {
     this.id = this.$route.params.productId
     this.getProduct()
-  },
-  mixins: [ToastMessage]
+  }
 }
 </script>

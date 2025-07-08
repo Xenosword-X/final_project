@@ -55,7 +55,6 @@
 import ProductModal from '@/components/ProductModal.vue'
 import DelModal from '@/components/DelModal.vue'
 import Pagination from '@/components/Pagination.vue'
-import ToastMessage from '@/mixins/ToastMessage'
 export default {
   data () {
     return {
@@ -140,7 +139,6 @@ export default {
   },
   created () {
     this.getProducts()
-  },
-  mixins: [ToastMessage]
+  }
 }
 </script>

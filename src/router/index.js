@@ -13,7 +13,21 @@ const routes = [
   },
   {
     path: '/customize',
-    component: () => import('../views/Customize.vue')
+    component: () => import('../views/Customize.vue'),
+    children: [
+      {
+        path: 'CInfo',
+        component: () => import('../views/CInfo.vue')
+      },
+      {
+        path: 'CPrice',
+        component: () => import('../views/CPrice.vue')
+      },
+      {
+        path: 'CForm',
+        component: () => import('../views/CForm.vue')
+      }
+    ]
   },
   {
     path: '/questions',
@@ -26,6 +40,10 @@ const routes = [
       {
         path: 'products',
         component: () => import('../views/Products.vue')
+      },
+      {
+        path: 'articles',
+        component: () => import('../views/Articles.vue')
       },
       {
         path: 'orders',

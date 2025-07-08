@@ -6,5 +6,5 @@
 
 // Custom.scss
 // Option A: Include all of Bootstrap
-
+@import "./helpers/mixins";
 @import "~bootstrap/scss/bootstrap";

@@ -2,9 +2,8 @@
 <template>
   <div class="quiz-wrapper">
     <div class="quiz-box bg-white p-4 rounded shadow-sm">
-      <h3 class="text-center mb-3">問答抽獎</h3>
+      <h3 class="text-center mb-3 title">問答抽獎</h3>
       <p v-if="!isQualified" class="text-center text-secondary">答對 8 題以上即可參加抽獎！</p>
-
       <!-- 問答區 -->
       <form v-if="!isQualified" @submit.prevent="submitQuiz">
         <div v-for="(question, index) in questions" :key="index" class="mb-4">
@@ -21,7 +20,6 @@
           <button type="submit" class="btn btn-primary px-4">送出答案</button>
         </div>
       </form>
-
       <!-- 抽獎區 -->
       <div v-else class="text-center">
         <h4 class="text-success">你答對了 {{ score }} 題 🎉</h4>
@@ -37,7 +35,6 @@
 </template>
 
 <script>
-import ToastMessage from '@/mixins/ToastMessage'
 export default {
   data () {
     return {
@@ -177,12 +174,11 @@ export default {
         this.showToast('error', `你只答對了 ${this.score} 題，未達抽獎資格 😢`)
       }
     }
-  },
-  mixins: [ToastMessage]
+  }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .quiz-wrapper {
   background: #f8f9fa;
   min-height: 100vh;
@@ -191,26 +187,25 @@ export default {
   align-items: center;
   padding: 2rem;
 }
-
 .quiz-box {
   max-width: 700px;
   width: 100%;
 }
-
 p.question-title {
   font-weight: 600;
   font-size: 1.1rem;
   color: #343a40;
   margin-bottom: 0.5rem;
 }
-
 .form-check-label {
   color: #6c757d;
   margin-left: 0.25rem;
 }
-
 .alert-success {
   font-size: 1.1rem;
   line-height: 1.6;
+}
+.title{
+  @include custom-title-style
 }
 </style>

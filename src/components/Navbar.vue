@@ -12,6 +12,9 @@
             <router-link to="/dashboard/products" class="nav-link" href="#">產品</router-link>
           </li>
           <li class="nav-item">
+            <router-link to="/dashboard/articles" class="nav-link" href="#">消息</router-link>
+          </li>
+          <li class="nav-item">
             <router-link to="/dashboard/orders" class="nav-link">訂單</router-link>
           </li>
           <li class="nav-item">
