@@ -1,7 +1,7 @@
 <template>
 <div class="container">
   <div class="table-responsive">
-    <table class="table table-bordered table-striped table-hover align-middle shadow-sm rounded overflow-hidden">
+    <table class="table table-bordered table-striped align-middle shadow-sm rounded overflow-hidden">
       <thead class="table-dark text-center">
         <tr>
           <th scope="col" style="width: 120px;">項目</th>

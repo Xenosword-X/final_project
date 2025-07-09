@@ -13,7 +13,7 @@
     <tr>
       <th>標題</th>
       <th width="120">作者</th>
-      <th width="160">內容</th>
+      <th width="160">標籤</th>
       <th width="160">建立時間</th>
       <th width="100" class="text-center">狀態</th>
       <th width="200" class="text-center">操作</th>
@@ -24,8 +24,7 @@
       <td>{{ item.title }}</td>
       <td>{{ item.author }}</td>
       <td>
-        {{ item.content }}
-        <!-- <span v-for="t in item.tag" :key="t" class="badge bg-info me-1">{{ t }}</span> -->
+        <span v-for="t in item.tag" :key="t" class="badge bg-info me-1">{{ t }}</span>
       </td>
       <td>{{ new Date(item.create_at).toLocaleString() }}</td>
       <td class="text-center">

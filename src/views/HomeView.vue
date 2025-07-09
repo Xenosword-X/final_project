@@ -18,8 +18,64 @@
     </div>
   </div>
   <div class="home container py-5">
+    <!-- 最新公告區域 -->
+    <div id="newsCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <h2 class="carousel-title text-center title mb-3">最新消息</h2>
+        <!-- 每組包三張卡片 -->
+        <div
+          class="carousel-item"
+          v-for="(group, groupIdx) in groupedArticles"
+          :class="{ active: groupIdx === 0 }"
+          :key="groupIdx"
+        >
+          <div class="row">
+            <div class="col-12 col-md-4 mb-3 mb-md-0" v-for="(article) in group"
+            :key="article.title">
+              <div class="card h-100 mx-1">
+                <img
+                  v-if="article.image"
+                  :src="article.image"
+                  class="card-img-top"
+                  :alt="article.title"
+                >
+                <div class="card-body d-flex flex-column">
+                  <h5 class="card-title">{{ article.title }}</h5>
+                  <p class="card-text text-secondary small mb-1">
+                    {{ formatDate(article.create_at) }}｜{{ article.author }}
+                  </p>
+                  <p class="card-text card-limit mb-2">{{ article.description }}</p>
+                  <div>
+                    <span
+                      class="badge bg-primary me-1"
+                      v-for="tag in article.tag"
+                      :key="tag"
+                    >{{ tag }}</span>
+                  </div>
+                  <div class="mt-auto d-flex justify-content-end">
+                    <button type="button" class="btn btn-outline-primary btn-sm"
+                    @click="openModal(article)">
+                      詳細資訊
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 輪播控制箭頭 -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#newsCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">上一則</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#newsCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">下一則</span>
+      </button>
+    </div>
     <!-- 輪播區域 -->
-    <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel">
+    <div id="carouselExampleCaptions" class="carousel slide carousel-fade mt-5" data-bs-ride="carousel">
       <div class="carousel-inner">
         <h2 class="carousel-title text-center title mb-3">我們的服務</h2>
         <div class="carousel-item active" data-bs-interval="3000">
@@ -53,25 +109,92 @@
         <span class="visually-hidden">Next</span>
       </button>
     </div>
-    <div class="mb-3 text-end">
+    <div class="mb-3 mt-5 text-end">
       <router-link to="/login" class="btn btn-outline-secondary">管理員登入</router-link>
     </div>
   </div>
+  <NewsModal ref="newsmodal"/>
 </template>
 
 <script>
+import NewsModal from '@/components/NewsModal.vue'
 export default {
-  name: 'HomeView'
+  name: 'HomeView',
+  data () {
+    return {
+      articles: []
+    }
+  },
+  components: {
+    NewsModal
+  },
+  computed: {
+    groupedArticles () {
+      const groupSize = window.innerWidth < 768 ? 1 : 3
+      const groups = []
+      for (let i = 0; i < this.articles.length; i += groupSize) {
+        groups.push(this.articles.slice(i, i + groupSize))
+      }
+      return groups
+    }
+  },
+  methods: {
+    getArticles () {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/articles`
+      this.$http.get(api)
+        .then(res => {
+          this.articles = res.data.articles
+        })
+    },
+    formatDate (ts) {
+      const date = new Date(Number(ts))
+      return date.toLocaleDateString('zh-TW', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      })
+    },
+    openModal (article) {
+      const newsComponent = this.$refs.newsmodal
+      newsComponent.open(article)
+    }
+  },
+  mounted () {
+    this.getArticles()
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+// 縮小輪播間距，不穰卡片按鈕被擋住
+.carousel-control-prev,
+.carousel-control-next {
+  width: 3rem;
+}
 .carousel-caption {
   background-color: rgba(0, 0, 0, 0.5);
   /* 避免文字太靠邊 */
   max-width: 50%;
   margin: 0 auto;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+.carousel-item .card {
+  min-width: 0; /* 保持響應式，避免溢出 */
+}
+//卡片內容進行限制，讓樣式統一
+.card-limit {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 3.2em;
+  white-space: normal;
+}
+.card.h-100 {
+  min-height: 400px;
+}
+.card-img-top {
+  max-height: 200px;
+  object-fit: cover;
 }
 .title{
   @include custom-title-style

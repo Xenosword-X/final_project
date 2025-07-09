@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import confetti from 'canvas-confetti'
 export default {
   data () {
     return {
@@ -136,19 +137,19 @@ export default {
       selectedCoupon: {},
       couponList: [
         {
-          code: 'asd95',
-          title: '95折折扣券',
-          description: '全商品打95折'
-        },
-        {
-          code: 'asd90',
-          title: '9折折扣券',
-          description: '全商品打9折'
+          code: 'asd80',
+          title: '8折折扣券',
+          description: '全商品打8折'
         },
         {
           code: 'asd85',
           title: '85折折扣券',
           description: '全商品打85折'
+        },
+        {
+          code: 'asd90',
+          title: '9折折扣券',
+          description: '全商品打9折'
         }
       ]
     }
@@ -167,6 +168,14 @@ export default {
       this.score = score
       // 判斷抽獎資格
       if (this.score >= 8) {
+        window.scrollTo(0, 0) // 獲得資格後跳轉到畫面最上方
+        // 加入 confetti 煙火特效
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        })
+        this.isQualified = true
         this.isQualified = true
         const i = Math.floor(Math.random() * this.couponList.length)
         this.selectedCoupon = this.couponList[i]
