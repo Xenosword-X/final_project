@@ -1,9 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <Loading :active="isLoading" />
-
   <h2 class="h4 fw-bold mt-4 mb-3">訂單管理</h2>
-
   <div class="table-responsive">
     <table class="table table-hover align-middle text-nowrap">
       <thead class="table-light">
@@ -30,18 +28,12 @@
           <td class="text-end">{{ $filters.currency(item.total) }}</td>
           <td class="text-center">
             <div class="d-flex flex-column align-items-center">
-              <span
-                class="badge mb-1"
-                :class="item.is_paid ? 'bg-success' : 'bg-secondary'">
+              <span class="badge mb-1" :class="item.is_paid ? 'bg-success' : 'bg-secondary'">
                 {{ item.is_paid ? '已付款' : '未付款' }}
               </span>
               <div class="form-check form-switch">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  :id="`paidSwitch${item.id}`"
-                  v-model="item.is_paid"
-                  @change="updatePaid(item)"
+                <input class="form-check-input" type="checkbox" :id="`paidSwitch${item.id}`"
+                  v-model="item.is_paid" @change="updatePaid(item)"
                 />
               </div>
             </div>
@@ -60,7 +52,6 @@
       </tbody>
     </table>
   </div>
-
   <OrderModal :order="tempOrder" ref="orderModal" @update-paid="updatePaid"/>
   <DelModal :item="tempOrder" ref="delModal" @del-item="delOrder"/>
   <Pagination :pages="pagination" @emit-pages="getOrders"/>

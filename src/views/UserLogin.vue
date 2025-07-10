@@ -19,11 +19,11 @@
               placeholder="請輸入密碼" required v-model="user.password"
             />
           </div>
-          <div class="d-grid mt-4">
-            <router-link to="/" class="btn btn-secondary btn-lg" type="submit">回到首頁</router-link>
+          <div class="mt-4">
+            <router-link to="/" class="btn btn-secondary btn-lg w-100" type="submit">回到首頁</router-link>
           </div>
-          <div class="d-grid mt-4">
-            <button class="btn btn-primary btn-lg" type="submit">登入</button>
+          <div class="mt-4">
+            <button class="btn btn-primary btn-lg w-100" type="submit">登入</button>
           </div>
         </form>
       </div>

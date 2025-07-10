@@ -2,14 +2,12 @@
 <template>
   <div>
     <Loading :active="isLoading" />
-
     <div class="d-flex justify-content-between align-items-center my-4">
-      <h2 class="h4 fw-bold mb-0">優惠券管理</h2>
+      <h2 class="h4 fw-bold">優惠券管理</h2>
       <button class="btn btn-primary d-flex align-items-center gap-1" @click="openCouponModal(true)">
         <i class="bi bi-plus-circle"></i> 建立新的優惠券
       </button>
     </div>
-
     <div class="table-responsive">
       <table class="table table-hover align-middle text-nowrap">
         <thead class="table-light">
@@ -45,7 +43,6 @@
         </tbody>
       </table>
     </div>
-
     <CouponModal :coupon="tempCoupon" ref="couponModal" :isNew="isNew"
       @update-coupon="updateCoupon"
     />

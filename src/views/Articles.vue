@@ -2,7 +2,7 @@
 <template>
   <Loading :active="isLoading" />
   <div class="d-flex justify-content-between align-items-center my-4">
-    <h2 class="h4 fw-bold mb-0">消息更新</h2>
+    <h2 class="h4 fw-bold">消息更新</h2>
     <button class="btn btn-primary d-flex align-items-center gap-1" @click="openModal(true)">
       <i class="bi bi-plus-circle"></i> 新增消息
     </button>
@@ -29,7 +29,7 @@
       <td>{{ new Date(item.create_at).toLocaleString() }}</td>
       <td class="text-center">
         <span class="badge" :class="item.isPublic ? 'bg-success' : 'bg-secondary'">
-          {{ item.isPublic ? '已發布' : '未發布' }}
+          {{ item.isPublic ? '已發布' : '以下架' }}
         </span>
       </td>
       <td class="text-center">
@@ -86,6 +86,14 @@ export default {
         }
       })
     },
+    getArticle (id) {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/article/${id}`
+      this.$http.get(api).then(res => {
+        if (res.data.success) {
+          this.tempArticle = res.data.article
+        }
+      })
+    },
     openModal (isNew, item) {
       if (isNew) {
         this.tempArticle = {
@@ -99,7 +107,7 @@ export default {
           create_at: Date.now()
         }
       } else {
-        this.tempArticle = { ...item }
+        this.getArticle(item.id)
       }
       this.isNew = isNew
       const articleComponent = this.$refs.articleModal

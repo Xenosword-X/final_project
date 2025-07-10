@@ -2,9 +2,9 @@
 <template>
   <Loading :active="isLoading" />
   <div class="d-flex justify-content-between align-items-center my-4">
-    <h2 class="h4 fw-bold mb-0">產品管理</h2>
-    <button class="btn btn-primary d-flex align-items-center gap-1" @click="openModal(true)">
-      <i class="bi bi-plus-circle"></i> 增加產品
+    <h2 class="h4 fw-bold">產品管理</h2>
+    <button class="btn btn-primary d-flex align-items-center" @click="openModal(true)">
+      <div><i class="bi bi-plus-circle"></i> 增加產品</div>
     </button>
   </div>
   <div class="table-responsive">
@@ -107,13 +107,10 @@ export default {
       const productComponent = this.$refs.productModal
       this.$http[httpMethod](api, { data: this.tempProduct })
         .then((res) => {
-          console.log(res)
           productComponent.hideModal()
           if (res.data.success) {
             this.getProducts()
             this.showToast('success', '更新成功')
-          } else {
-            this.showToast('error', '更新失敗，請確認是否有欄位未填寫')
           }
         })
         .catch((err) => {
@@ -129,8 +126,8 @@ export default {
     },
     delProduct () {
       const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${this.tempProduct.id}`
-      this.$http.delete(url).then((response) => {
-        console.log(response.data)
+      this.$http.delete(url).then((res) => {
+        console.log(res.data)
         const delComponent = this.$refs.delModal
         delComponent.hideModal()
         this.getProducts()

@@ -1,4 +1,5 @@
 <template>
+  <Loading :active="isLoading" />
   <!-- banner區域 -->
   <div class="min-vh-100 position-relative">
     <div class="position-absolute w-100 h-100"
@@ -17,27 +18,21 @@
         <p>您想要的主機遊戲我們都有</p>
     </div>
   </div>
-  <div class="home container py-5">
+  <div class="container py-5">
     <!-- 最新公告區域 -->
     <div id="newsCarousel" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
         <h2 class="carousel-title text-center title mb-3">最新消息</h2>
         <!-- 每組包三張卡片 -->
-        <div
-          class="carousel-item"
-          v-for="(group, groupIdx) in groupedArticles"
-          :class="{ active: groupIdx === 0 }"
-          :key="groupIdx"
+        <div class="carousel-item" v-for="(group, groupIdx) in groupedArticles"
+          :class="{ active: groupIdx === 0 }" :key="groupIdx"
         >
           <div class="row">
             <div class="col-12 col-md-4 mb-3 mb-md-0" v-for="(article) in group"
             :key="article.title">
               <div class="card h-100 mx-1">
-                <img
-                  v-if="article.image"
-                  :src="article.image"
-                  class="card-img-top"
-                  :alt="article.title"
+                <img v-if="article.image" :src="article.image"
+                  class="card-img-top" :alt="article.title"
                 >
                 <div class="card-body d-flex flex-column">
                   <h5 class="card-title">{{ article.title }}</h5>
@@ -46,11 +41,9 @@
                   </p>
                   <p class="card-text card-limit mb-2">{{ article.description }}</p>
                   <div>
-                    <span
-                      class="badge bg-primary me-1"
-                      v-for="tag in article.tag"
-                      :key="tag"
-                    >{{ tag }}</span>
+                    <span class="badge bg-primary me-1" v-for="tag in article.tag" :key="tag">
+                      {{ tag }}
+                    </span>
                   </div>
                   <div class="mt-auto d-flex justify-content-end">
                     <button type="button" class="btn btn-outline-primary btn-sm"
@@ -113,7 +106,7 @@
       <router-link to="/login" class="btn btn-outline-secondary">管理員登入</router-link>
     </div>
   </div>
-  <NewsModal ref="newsmodal"/>
+  <NewsModal ref="newsmodal" :article="article" :is-loading="isLoading"/>
 </template>
 
 <script>
@@ -122,7 +115,9 @@ export default {
   name: 'HomeView',
   data () {
     return {
-      articles: []
+      articles: [],
+      article: {},
+      isLoading: false
     }
   },
   components: {
@@ -146,6 +141,15 @@ export default {
           this.articles = res.data.articles
         })
     },
+    getArticle (item) {
+      this.isLoading = true
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/article/${item.id}`
+      this.$http.get(api)
+        .then(res => {
+          this.article = res.data.article
+          this.isLoading = false
+        })
+    },
     formatDate (ts) {
       const date = new Date(Number(ts))
       return date.toLocaleDateString('zh-TW', {
@@ -155,8 +159,9 @@ export default {
       })
     },
     openModal (article) {
+      this.getArticle(article)
       const newsComponent = this.$refs.newsmodal
-      newsComponent.open(article)
+      newsComponent.showModal()
     }
   },
   mounted () {

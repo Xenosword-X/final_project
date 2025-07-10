@@ -9,16 +9,16 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <router-link to="/dashboard/products" class="nav-link" href="#">產品</router-link>
+            <router-link to="/dashboard/products" class="nav-link">產品</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/dashboard/articles" class="nav-link" href="#">消息</router-link>
+            <router-link to="/dashboard/articles" class="nav-link">消息</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/dashboard/orders" class="nav-link">訂單</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/dashboard/coupons" class="nav-link" href="#">優惠卷</router-link>
+            <router-link to="/dashboard/coupons" class="nav-link">優惠卷</router-link>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" @click.prevent="logout">登出</a>
@@ -37,7 +37,6 @@ export default {
       this.$http.post(api, this.user)
         .then((res) => {
           if (res.data.success) {
-            console.log(res)
             this.$router.push('/login')
           }
         })

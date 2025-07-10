@@ -15,7 +15,7 @@
     $route.path.startsWith('/customize') ||
     $route.path === '/questions'
   "
-  ></Footer>
+  />
 </template>
 
 <script>

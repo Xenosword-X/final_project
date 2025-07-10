@@ -44,7 +44,6 @@
 </template>
 
 <script>
-import ToastMessage from '@/mixins/ToastMessage'
 export default {
   data () {
     return {
@@ -63,8 +62,7 @@ export default {
       this.previewUrl = ''
       this.showToast('success', '表單已送出，我們將盡快與您聯繫！')
     }
-  },
-  mixins: [ToastMessage]
+  }
 }
 </script>
 

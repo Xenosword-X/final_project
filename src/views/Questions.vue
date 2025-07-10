@@ -176,7 +176,6 @@ export default {
           origin: { y: 0.6 }
         })
         this.isQualified = true
-        this.isQualified = true
         const i = Math.floor(Math.random() * this.couponList.length)
         this.selectedCoupon = this.couponList[i]
       } else {
