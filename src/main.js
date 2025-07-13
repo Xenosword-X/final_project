@@ -1,5 +1,6 @@
 /* eslint-disable vue/multi-word-component-names */
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import Loading from 'vue3-loading-overlay' // 導入loading元件
@@ -20,6 +21,7 @@ import ToastMessage from '@/mixins/ToastMessage'
 import { currency } from './methods/filter'
 
 const app = createApp(App)
+const pinia = createPinia()
 app.config.globalProperties.$filters = {
   currency
 }
@@ -38,6 +40,7 @@ setLocale('zh_TW')
 
 app.use(VueAxios, axios)
 app.use(router)
+app.use(pinia)
 app.mixin(ToastMessage)
 // eslint-disable-next-line vue/multi-word-component-names
 app.component('Loading', Loading)

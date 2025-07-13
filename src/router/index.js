@@ -61,7 +61,11 @@ const routes = [
     children: [
       {
         path: 'cart',
-        component: () => import('../views/UserCart.vue')
+        component: () => import('../views/UserCartlist.vue')
+      },
+      {
+        path: 'form',
+        component: () => import('../views/UserForm.vue')
       },
       {
         path: 'product/:productId',
