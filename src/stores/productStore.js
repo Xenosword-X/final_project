@@ -1,9 +1,8 @@
 import axios from 'axios'
 import { defineStore } from 'pinia'
-import statusStore from './statusStore'
-const status = statusStore()
+import { useStatusStore } from './statusStore'
 
-export default defineStore('productStore', {
+export const useProductStore = defineStore('productStore', {
   state: () => {
     return {
       products: []
@@ -11,6 +10,7 @@ export default defineStore('productStore', {
   },
   actions: {
     getProducts () {
+      const status = useStatusStore()
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products/all`
       status.isLoading = true
       axios.get(api)

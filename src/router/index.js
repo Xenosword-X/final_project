@@ -34,6 +34,14 @@ const routes = [
     component: () => import('../views/Questions.vue')
   },
   {
+    path: '/cart',
+    component: () => import('../views/UserCartlist.vue')
+  },
+  {
+    path: '/product/:productId',
+    component: () => import('../views/UserProduct.vue')
+  },
+  {
     path: '/dashboard',
     component: () => import('../views/Dashboard.vue'),
     children: [
@@ -60,16 +68,8 @@ const routes = [
     component: () => import('../views/UserBoard.vue'),
     children: [
       {
-        path: 'cart',
-        component: () => import('../views/UserCartlist.vue')
-      },
-      {
         path: 'form',
         component: () => import('../views/UserForm.vue')
-      },
-      {
-        path: 'product/:productId',
-        component: () => import('../views/UserProduct.vue')
       },
       {
         path: 'checkout/:orderId',

@@ -2,7 +2,7 @@
   <Loading :active="isLoading"></Loading>
   <div class="container">
     <div class="row mt-4">
-      <div class="col-md-8">
+      <div class="col-md-12">
         <select class="form-select mb-3" aria-label="product-category"
         v-model="selectedCategory">
             <option value="" disabled>請選擇類別</option>
@@ -68,89 +68,19 @@
           </ul>
         </nav>
       </div>
-      <!-- 購物車列表 -->
-      <div class="col-md-4">
-        <div class="sticky-top">
-          <table class="table align-middle">
-            <thead>
-              <tr>
-                <th></th>
-                <th>品名</th>
-                <th style="width: 110px">數量</th>
-                <th>單價</th>
-              </tr>
-            </thead>
-            <tbody>
-            <template v-if="cart.carts">
-              <tr v-for="item in cart.carts" :key="item.id">
-                <td>
-                  <button type="button" class="btn btn-outline-danger btn-sm"
-                          :disabled="cartLoadingItem === item.id"
-                          @click="delCartItem(item.id)">
-                    <i class="bi bi-x"></i>
-                  </button>
-                </td>
-                <td>
-                  {{ item.product.title }}
-                  <div class="text-success" v-if="item.coupon">
-                    已套用優惠券
-                  </div>
-                </td>
-                <td>
-                  <div class="input-group input-group-sm">
-                    <input type="number" class="form-control" min="1" @change="updateCart(item)"
-                          v-model.number="item.qty" :disabled="item.id === cartLoadingItem">
-                    <div class="input-group-text">/ {{ item.product.unit }}</div>
-                  </div>
-                </td>
-                <td class="text-end">
-                  <small v-if="cart.final_total !== cart.total" class="text-success">折扣價：</small>
-                  {{ $filters.currency(item.final_total) }}
-                </td>
-              </tr>
-            </template>
-            </tbody>
-            <tfoot>
-            <tr>
-              <td v-if="cart.carts && cart.carts.length" class="text-start">
-                <button class="btn btn-outline-danger text-nowrap" type="button"
-                @click="delAllCart()">清空購物車</button>
-              </td>
-              <td :colspan="cart.carts && cart.carts.length ? 2 : 3" class="text-end">總計</td>
-              <td class="text-end">{{ $filters.currency(cart.total) }}</td>
-            </tr>
-            <tr v-if="cart.final_total !== cart.total">
-              <td colspan="3" class="text-end text-success">折扣價</td>
-              <td class="text-end text-success">{{ $filters.currency(cart.final_total) }}</td>
-            </tr>
-            </tfoot>
-          </table>
-          <div class="input-group mb-3 input-group-sm">
-            <input type="text" class="form-control" v-model="coupon_code" placeholder="請輸入優惠碼">
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button" @click="applyCoupon">
-                套用優惠碼
-              </button>
-            </div>
-          </div>
-          <div class="text-end">
-            <button class="btn btn-outline-primary" type="button" @click="cartSubmit">填寫寄送資料</button>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
-import productStore from '@/stores/productStore'
-import cartStore from '@/stores/cartStore'
-import statusStore from '@/stores/statusStore'
+import { useProductStore } from '@/stores/productStore'
+import { useCartStore } from '@/stores/cartStore'
+import { useStatusStore } from '@/stores/statusStore'
 import { mapState, mapActions } from 'pinia'
 export default {
   data () {
     return {
-      product: {},
+      /* product: {}, */
       selectedCategory: '', // 選擇的商品種類
       coupon_code: '',
       currentPage: 1, // 當前頁碼
@@ -158,9 +88,9 @@ export default {
     }
   },
   computed: {
-    ...mapState(productStore, ['products']),
-    ...mapState(cartStore, ['cart']),
-    ...mapState(statusStore, ['isLoading', 'cartLoadingItem']),
+    ...mapState(useProductStore, ['products']),
+    ...mapState(useCartStore, ['cart']),
+    ...mapState(useStatusStore, ['isLoading', 'cartLoadingItem']),
     filteredProducts () { // 商品分類
       if (this.selectedCategory) {
         return this.products.filter(product => product.category === this.selectedCategory)
@@ -177,20 +107,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(productStore, ['getProducts']),
-    ...mapActions(cartStore, ['addCart', 'updateCart', 'delCartItem', 'delAllCart', 'addCouponCode', 'getCart']),
+    ...mapActions(useProductStore, ['getProducts']),
+    ...mapActions(useCartStore, ['addCart', 'getCart']),
     getProduct (id) {
-      this.$router.push(`/user/product/${id}`)
-    },
-    applyCoupon () {
-      cartStore().addCouponCode(this.coupon_code)
-    },
-    cartSubmit () {
-      if (!this.cart.final_total) { // 判斷購物車金額為零代表無商品
-        this.showToast('error', '購物車無商品')
-      } else {
-        this.$router.push('/user/form')
-      }
+      this.$router.push(`/product/${id}`)
     }
   },
   created () {

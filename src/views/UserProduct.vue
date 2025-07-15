@@ -79,7 +79,7 @@ export default {
         .then(res => {
           this.isLoading = false
           this.showToast('success', '已加入購物車')
-          this.$router.push('/user/cart')
+          this.$router.push('/cart')
         })
     }
   },

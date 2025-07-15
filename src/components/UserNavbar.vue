@@ -36,7 +36,7 @@
             </router-link>
           </li>
           <li class="nav-item mx-2">
-            <router-link to="/user/cart" class="nav-link">
+            <router-link to="/cart" class="nav-link">
               遊戲商城 <i class="bi bi-bag"></i>
             </router-link>
           </li>

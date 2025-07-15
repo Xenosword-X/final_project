@@ -1,17 +1,19 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { showToast } from '@/methods/Toast'
-import statusStore from './statusStore'
-const status = statusStore()
+import { useStatusStore } from './statusStore'
 
-export default defineStore('cartStore', {
+export const useCartStore = defineStore('cartStore', {
   state: () => {
     return {
-      cart: {}
+      cart: {
+        carts: []
+      }
     }
   },
   actions: {
     addCart (id) {
+      const status = useStatusStore()
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`
       status.cartLoadingItem = id
       const cart = {
@@ -31,6 +33,7 @@ export default defineStore('cartStore', {
         })
     },
     updateCart (item) { // 更新購物車商品數量
+      const status = useStatusStore()
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${item.id}`
       status.isLoading = true
       status.cartLoadingItem = item.id
@@ -47,6 +50,7 @@ export default defineStore('cartStore', {
         })
     },
     delCartItem (id) {
+      const status = useStatusStore()
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`
       status.isLoading = true
       status.cartLoadingItem = id
@@ -60,6 +64,7 @@ export default defineStore('cartStore', {
         })
     },
     delAllCart () {
+      const status = useStatusStore()
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/carts`
       status.isLoading = true
       axios.delete(api)
@@ -71,6 +76,7 @@ export default defineStore('cartStore', {
         })
     },
     addCouponCode (code) {
+      const status = useStatusStore()
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/coupon`
       const coupon = { code: code }
       status.isLoading = true
@@ -79,6 +85,7 @@ export default defineStore('cartStore', {
           console.log(res)
           showToast('success', '已成功加入優惠券')
           this.getCart()
+          this.coupon_code = ''
           status.isLoading = false
         })
         .catch((err) => {
@@ -88,6 +95,7 @@ export default defineStore('cartStore', {
         })
     },
     getCart () {
+      const status = useStatusStore()
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`
       status.isLoading = true
       axios.get(api).then((res) => {
