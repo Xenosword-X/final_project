@@ -1,5 +1,5 @@
 <template>
-  <div class="my-5">
+  <div class="py-5">
     <!-- Tabs 切換列 -->
     <ul class="nav nav-tabs">
       <li class="nav-item" v-for="tab in tabs" :key="tab.id">

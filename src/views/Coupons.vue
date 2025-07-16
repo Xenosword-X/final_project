@@ -47,17 +47,19 @@
       @update-coupon="updateCoupon"
     />
     <DelModal :item="tempCoupon" ref="delModal" @del-item="delCoupon"/>
+    <Pagination :pages="pagination" @emit-pages="getCoupons"/>
   </div>
 </template>
 
 <script>
 import CouponModal from '@/components/CouponModal.vue'
 import DelModal from '@/components/DelModal.vue'
-import ToastMessage from '@/mixins/ToastMessage'
+import Pagination from '@/components/Pagination.vue'
 export default {
   components: {
     CouponModal,
-    DelModal
+    DelModal,
+    Pagination
   },
   /* props: {
     config: Object
@@ -65,6 +67,7 @@ export default {
   data () {
     return {
       coupons: {},
+      pagination: {},
       tempCoupon: {
         title: '',
         is_enabled: 0,
@@ -76,12 +79,13 @@ export default {
     }
   },
   methods: {
-    getCoupons () {
+    getCoupons (page = 1) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupons`
       this.isLoading = true
       this.$http.get(api)
         .then((res) => {
           this.coupons = res.data.coupons
+          this.pagination = res.data.pagination
           this.isLoading = false
         })
     },
@@ -146,7 +150,6 @@ export default {
   },
   created () {
     this.getCoupons()
-  },
-  mixins: [ToastMessage]
+  }
 }
 </script>

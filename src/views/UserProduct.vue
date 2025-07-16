@@ -1,9 +1,10 @@
 <template>
+  <div class="main-section">
   <Loading :active="isLoading"></Loading>
-  <div class="container">
+  <div class="container pt-3">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><router-link to="/user/cart">購物車</router-link></li>
+        <li class="breadcrumb-item"><router-link to="/cart">購物車</router-link></li>
         <li class="breadcrumb-item active" aria-current="page">{{ product.title }}</li>
       </ol>
     </nav>
@@ -34,11 +35,12 @@
         <hr>
         <button type="button" class="btn btn-outline-danger"
                 @click="addToCart(product.id)">
-          加到購物車
+          加到購物車 <i class="bi bi-bag-fill"></i>
         </button>
       </div>
     </div>
     <ProductTab :youtubeUrl="product.description" />
+  </div>
   </div>
 </template>
 
@@ -79,7 +81,7 @@ export default {
         .then(res => {
           this.isLoading = false
           this.showToast('success', '已加入購物車')
-          this.$router.push('/user/cart')
+          this.$router.push('/cart')
         })
     }
   },
@@ -89,3 +91,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.main-section{
+  @include background-color
+}
+</style>
