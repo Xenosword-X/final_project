@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="background">
     <div class="checkout-layout container py-5">
       <div class="text-center mb-4">
@@ -12,6 +13,19 @@
       </div>
       <router-view />
     </div>
+=======
+  <div class="checkout-layout container py-5">
+    <div class="text-center mb-4">
+      <!-- <h2 class="fw-bold title">結帳流程</h2> -->
+      <div class="checkout-steps mt-3">
+        <img src="../assets/fillForm.png" alt="fillForm" style="width:200px"
+        class="img-fluid" v-if="$route.path.includes('/form')">
+        <img src="../assets/comfirmOrder.png" alt="comfirmOrder" style="width:200px"
+        class="img-fluid" v-if="$route.path.includes('/checkout')">
+      </div>
+    </div>
+    <router-view />
+>>>>>>> bf0067fb16487b31dd00e15e8f192321b3f2b352
   </div>
 </template>
 
@@ -37,7 +51,10 @@ export default {
 .title{
   @include custom-title-style
 }
+<<<<<<< HEAD
 .background{
   @include background-color
 }
+=======
+>>>>>>> bf0067fb16487b31dd00e15e8f192321b3f2b352
 </style>

@@ -2,7 +2,11 @@
   <div class="main-section">
   <Loading :active="isLoading"></Loading>
   <div class="container">
+<<<<<<< HEAD
     <div class="row pt-4">
+=======
+    <div class="row mt-4">
+>>>>>>> bf0067fb16487b31dd00e15e8f192321b3f2b352
       <div class="col-md-12">
         <select class="form-select mb-3" aria-label="product-category"
         v-model="selectedCategory">

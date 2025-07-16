@@ -21,7 +21,11 @@
       style="width: 400px;"
     >
       <div class="offcanvas-header">
+<<<<<<< HEAD
         <h5 class="offcanvas-title" id="cartOffcanvasLabel">購物車 <i class="bi bi-cart"></i></h5>
+=======
+        <h5 class="offcanvas-title" id="cartOffcanvasLabel">購物車</h5>
+>>>>>>> bf0067fb16487b31dd00e15e8f192321b3f2b352
         <button
           type="button"
           class="btn-close"
