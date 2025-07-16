@@ -11,5 +11,11 @@ module.exports = defineConfig({
         `
       }
     }
+  },
+  pages: {
+    index: {
+      entry: 'src/main.js',
+      title: 'GameZone'
+    }
   }
 })

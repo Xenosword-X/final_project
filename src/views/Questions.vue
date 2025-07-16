@@ -188,7 +188,7 @@ export default {
 
 <style lang="scss" scoped>
 .quiz-wrapper {
-  background: #f8f9fa;
+  @include background-color;
   min-height: 100vh;
   display: flex;
   justify-content: center;

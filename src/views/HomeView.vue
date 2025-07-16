@@ -18,6 +18,7 @@
         <p>您想要的主機遊戲我們都有</p>
     </div>
   </div>
+  <div class="main-section">
   <div class="container py-5">
     <!-- 最新公告區域 -->
     <div id="newsCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -102,9 +103,7 @@
         <span class="visually-hidden">Next</span>
       </button>
     </div>
-    <div class="mb-3 mt-5 text-end">
-      <router-link to="/login" class="btn btn-outline-secondary">管理員登入</router-link>
-    </div>
+  </div>
   </div>
   <NewsModal ref="newsmodal" :article="article" :is-loading="isLoading"/>
 </template>
@@ -203,5 +202,8 @@ export default {
 }
 .title{
   @include custom-title-style
+}
+.main-section{
+  @include background-color
 }
 </style>
