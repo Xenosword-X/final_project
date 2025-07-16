@@ -13,6 +13,18 @@
       <router-view />
     </div>
   </div>
+  <div class="checkout-layout container py-5">
+    <div class="text-center mb-4">
+      <!-- <h2 class="fw-bold title">結帳流程</h2> -->
+      <div class="checkout-steps mt-3">
+        <img src="../assets/fillForm.png" alt="fillForm" style="width:200px"
+        class="img-fluid" v-if="$route.path.includes('/form')">
+        <img src="../assets/comfirmOrder.png" alt="comfirmOrder" style="width:200px"
+        class="img-fluid" v-if="$route.path.includes('/checkout')">
+      </div>
+    </div>
+    <router-view />
+  </div>
 </template>
 
 <script>
@@ -37,7 +49,9 @@ export default {
 .title{
   @include custom-title-style
 }
+
 .background{
   @include background-color
 }
+
 </style>
