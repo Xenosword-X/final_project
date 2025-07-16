@@ -1,6 +1,6 @@
-# 飲料點單系統 Drink Order System
+# 遊戲電商網站
 
-這是一個使用 **Vue 3 (Options API)** 製作的前端點餐系統，模擬飲料店的點單流程，包含商品選擇、加料設定、價格計算與訂單確認。主要練習項目包括資料綁定、條件渲染、事件處理、動態表單互動與計算邏輯整合。
+這是一個使用 **Vue 3 (Options API)** 製作的電商網站，模擬一般遊戲電商網站有的頁面，包含主頁面、加料設定、價格計算與訂單確認。主要練習項目包括資料綁定、條件渲染、事件處理、動態表單互動與計算邏輯整合。
 
 🔗 Demo 線上預覽  
 👉 [https://xenosword-x.github.io/drinkOrder](https://xenosword-x.github.io/drinkOrder)
