@@ -52,9 +52,9 @@
 </template>
 
 <script>
-import ProductModal from '@/components/ProductModal.vue'
-import DelModal from '@/components/DelModal.vue'
-import Pagination from '@/components/Pagination.vue'
+import ProductModal from '@/backend/components/ProductModal.vue'
+import DelModal from '@/backend/components/DelModal.vue'
+import Pagination from '@/backend/components/Pagination.vue'
 export default {
   data () {
     return {
@@ -66,7 +66,6 @@ export default {
     }
   },
   components: {
-    // eslint-disable-next-line vue/no-unused-components
     ProductModal,
     DelModal,
     Pagination
@@ -83,6 +82,10 @@ export default {
           this.pagination = res.data.pagination
         }
       })
+        .catch((err) => {
+          console.error('API 錯誤：', err)
+          this.showToast('error', '資料載入失敗')
+        })
     },
     openModal (isNew, item) {
       if (isNew) {
@@ -132,6 +135,10 @@ export default {
         delComponent.hideModal()
         this.getProducts()
       })
+        .catch((err) => {
+          console.error('API 錯誤：', err)
+          this.showToast('error', '資料刪除失敗')
+        })
     }
   },
   created () {

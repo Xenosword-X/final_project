@@ -1,7 +1,8 @@
 <template>
   <div class="py-5">
     <!-- Tabs 切換列 -->
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs flex-nowrap overflow-x-auto overflow-y-hidden border-0 mb-3"
+  style="white-space: nowrap;">
       <li class="nav-item" v-for="tab in tabs" :key="tab.id">
         <button
           class="nav-link"

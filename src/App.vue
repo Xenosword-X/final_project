@@ -33,9 +33,9 @@
 </template>
 
 <script>
-import UserNavbar from './components/UserNavbar.vue'
-import Footer from './components/Footer.vue'
-import FloatingCart from './components/FloatingCart.vue'
+import UserNavbar from './frontend/components/UserNavbar.vue'
+import Footer from './frontend/components/Footer.vue'
+import FloatingCart from './frontend/components/FloatingCart.vue'
 export default {
   components: {
     UserNavbar,

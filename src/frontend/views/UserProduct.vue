@@ -9,10 +9,10 @@
       </ol>
     </nav>
     <div class="row justify-content-center">
-      <article class="col-8">
+      <article class="col-md-6">
         <img :src="product.imageUrl" alt="" class="img-fluid mb-3">
       </article>
-      <div class="col-4">
+      <div class="col-md-4">
         <!-- 商品內容說明 -->
         <div class="mb-3">
           <p class="text-muted h2">{{ product.title }}</p>
@@ -33,7 +33,7 @@
         </ul>
         <p class="text-success">滿 NT$2,000 享免運優惠</p>
         <hr>
-        <button type="button" class="btn btn-outline-danger"
+        <button type="button" class="btn btn-outline-primary"
                 @click="addToCart(product.id)">
           加到購物車 <i class="bi bi-bag-fill"></i>
         </button>
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import ProductTab from '@/components/ProductTab.vue'
+import ProductTab from '@/frontend/components/ProductTab.vue'
 export default {
   data () {
     return {
@@ -69,6 +69,10 @@ export default {
             this.product = res.data.product
           }
         })
+        .catch((err) => {
+          console.error('API 錯誤：', err)
+          this.showToast('error', '資料載入失敗')
+        })
     },
     addToCart (id, qty = 1) {
       this.isLoading = true
@@ -82,6 +86,10 @@ export default {
           this.isLoading = false
           this.showToast('success', '已加入購物車')
           this.$router.push('/cart')
+        })
+        .catch((err) => {
+          console.error('API 錯誤：', err)
+          this.showToast('error', '資料新增失敗')
         })
     }
   },

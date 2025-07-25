@@ -1,9 +1,10 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand fw-bold" href="#">管理後台</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
@@ -26,7 +27,7 @@
         </ul>
       </div>
     </div>
-</nav>
+  </nav>
 </template>
 
 <script>
@@ -39,6 +40,10 @@ export default {
           if (res.data.success) {
             this.$router.push('/login')
           }
+        })
+        .catch(err => {
+          console.error('API 錯誤：', err)
+          this.showToast('error', '登出失敗')
         })
     }
   }

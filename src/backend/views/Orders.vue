@@ -58,9 +58,9 @@
 </template>
 
 <script>
-import DelModal from '@/components/DelModal.vue'
-import OrderModal from '@/components/OrderModal.vue'
-import Pagination from '@/components/Pagination.vue'
+import DelModal from '@/backend/components/DelModal.vue'
+import OrderModal from '@/backend/components/OrderModal.vue'
+import Pagination from '@/backend/components/Pagination.vue'
 export default {
   data () {
     return {
@@ -87,6 +87,10 @@ export default {
             this.pagination = res.data.pagination
           }
         })
+        .catch((err) => {
+          console.error('API 錯誤：', err)
+          this.showToast('error', '資料載入失敗')
+        })
     },
     openModal (item) {
       this.tempOrder = { ...item }
@@ -109,6 +113,10 @@ export default {
           this.isLoading = false
           this.getOrders()
         })
+        .catch((err) => {
+          console.error('API 錯誤：', err)
+          this.showToast('error', '資料更新失敗')
+        })
     },
     delOrder () {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/order/${this.tempOrder.id}`
@@ -117,6 +125,10 @@ export default {
           const delComponent = this.$refs.delModal
           delComponent.hideModal()
           this.getOrders()
+        })
+        .catch((err) => {
+          console.error('API 錯誤：', err)
+          this.showToast('error', '資料刪除失敗')
         })
     },
     formatDate (timestamp) {

@@ -21,15 +21,14 @@ export const useCartStore = defineStore('cartStore', {
         qty: 1
       }
       axios.post(api, { data: cart })
-        .then(res => {
+        .then(() => {
           status.cartLoadingItem = ''
           showToast('success', '已加入購物車')
           this.getCart()
-          console.log(res)
         })
-        .catch(err => {
-          showToast('error', '商品已無庫存')
-          console.log(err)
+        .catch((err) => {
+          console.error('API 錯誤：', err)
+          showToast('error', '資料新增失敗')
         })
     },
     updateCart (item) { // 更新購物車商品數量
@@ -42,11 +41,14 @@ export const useCartStore = defineStore('cartStore', {
         qty: item.qty
       }
       axios.put(api, { data: cart })
-        .then(res => {
-          console.log(res)
+        .then(() => {
           status.cartLoadingItem = ''
           status.isLoading = false
           this.getCart()
+        })
+        .catch((err) => {
+          console.error('API 錯誤：', err)
+          showToast('error', '資料更新失敗')
         })
     },
     delCartItem (id) {
@@ -55,12 +57,15 @@ export const useCartStore = defineStore('cartStore', {
       status.isLoading = true
       status.cartLoadingItem = id
       axios.delete(api, id)
-        .then(res => {
-          console.log(res)
+        .then(() => {
           showToast('success', '商品已刪除')
           status.cartLoadingItem = ''
           this.getCart()
           status.isLoading = false
+        })
+        .catch((err) => {
+          console.error('API 錯誤：', err)
+          showToast('error', '資料刪除失敗')
         })
     },
     delAllCart () {
@@ -68,11 +73,14 @@ export const useCartStore = defineStore('cartStore', {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/carts`
       status.isLoading = true
       axios.delete(api)
-        .then(res => {
-          console.log(res)
+        .then(() => {
           showToast('success', '已清空購物車')
           this.getCart()
           status.isLoading = false
+        })
+        .catch((err) => {
+          console.error('API 錯誤：', err)
+          showToast('error', '資料刪除失敗')
         })
     },
     addCouponCode (code) {
@@ -81,15 +89,14 @@ export const useCartStore = defineStore('cartStore', {
       const coupon = { code: code }
       status.isLoading = true
       axios.post(api, { data: coupon })
-        .then(res => {
-          console.log(res)
+        .then(() => {
           showToast('success', '已成功加入優惠券')
           this.getCart()
           this.coupon_code = ''
           status.isLoading = false
         })
         .catch((err) => {
-          console.log(err)
+          console.error('API 錯誤：', err)
           status.isLoading = false
           showToast('error', '該優惠券不存在')
         })
@@ -99,10 +106,13 @@ export const useCartStore = defineStore('cartStore', {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`
       status.isLoading = true
       axios.get(api).then((res) => {
-        console.log(res)
         this.cart = res.data.data
         status.isLoading = false
       })
+        .catch((err) => {
+          console.error('API 錯誤：', err)
+          showToast('error', '資料載入失敗')
+        })
     }
   }
 })

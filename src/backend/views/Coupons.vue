@@ -52,18 +52,15 @@
 </template>
 
 <script>
-import CouponModal from '@/components/CouponModal.vue'
-import DelModal from '@/components/DelModal.vue'
-import Pagination from '@/components/Pagination.vue'
+import CouponModal from '@/backend/components/CouponModal.vue'
+import DelModal from '@/backend/components/DelModal.vue'
+import Pagination from '@/backend/components/Pagination.vue'
 export default {
   components: {
     CouponModal,
     DelModal,
     Pagination
   },
-  /* props: {
-    config: Object
-  }, */
   data () {
     return {
       coupons: {},
@@ -87,6 +84,10 @@ export default {
           this.coupons = res.data.coupons
           this.pagination = res.data.pagination
           this.isLoading = false
+        })
+        .catch((err) => {
+          console.error('API 錯誤：', err)
+          this.showToast('error', '資料載入失敗')
         })
     },
     openCouponModal (isNew, item) {
@@ -132,16 +133,23 @@ export default {
             )
           }
         })
+        .catch((err) => {
+          console.error('API 錯誤：', err)
+          this.showToast('error', '資料載入失敗')
+        })
     },
     delCoupon () {
       const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupon/${this.tempCoupon.id}`
       this.isLoading = true
-      this.$http.delete(url).then((response) => {
-        console.log(response, this.tempCoupon)
+      this.$http.delete(url).then(() => {
         const delComponent = this.$refs.delModal
         delComponent.hideModal()
         this.getCoupons()
       })
+        .catch((err) => {
+          console.error('API 錯誤：', err)
+          this.showToast('error', '資料刪除失敗')
+        })
     },
     formatDate (timestamp) {
       const date = new Date(timestamp * 1000)

@@ -55,9 +55,8 @@
 </template>
 
 <script>
-import modalMixin from '../mixins/modalMixin'
+import modalMixin from '@/mixins/modalMixin'
 export default {
-  /* name: 'couponModal', */
   props: {
     coupon: {},
     isNew: Boolean
@@ -68,12 +67,10 @@ export default {
       due_date: ''
     }
   },
-  /* emits: ['update-coupon'], */
   watch: {
     coupon () {
       this.tempCoupon = this.coupon
       // 將時間格式改為 YYYY-MM-DD
-      console.log(this.tempCoupon.due_date)
       const dateAndTime = new Date(this.tempCoupon.due_date * 1000)
         .toISOString().split('T');
       [this.due_date] = dateAndTime

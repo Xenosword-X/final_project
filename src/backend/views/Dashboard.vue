@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import Navbar from '@/components/Navbar.vue'
+import Navbar from '@/backend/components/Navbar.vue'
 export default {
   components: {
     Navbar
@@ -21,6 +21,10 @@ export default {
         if (!res.data.success) {
           this.$router.push('/login')
         }
+      })
+      .catch((err) => {
+        console.error('API 錯誤：', err)
+        this.showToast('error', '資料載入失敗')
       })
   }
 }

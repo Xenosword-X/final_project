@@ -6,11 +6,11 @@
       <!-- Logo + Info -->
       <div class="col-md-4 mb-4 mb-md-0">
         <h5 class="mb-3">
-          <img :src="require('@/assets/LOGO.svg')" alt="GameZone Logo"
+          <img :src="require('@/assets/LOGO_white.png')" alt="GameZone Logo"
           style="width: 300px; width: 200px"/>
         </h5>
-        <p class="mb-1">公司信箱：service@example.com</p>
-        <p>電話：02-1234-5678</p>
+        <p class="mb-1">公司信箱：<a href="mailto:service@example.com">service@example.com</a></p>
+        <p>電話：<a href="tel:0912345678">0912-345-678</a></p>
         <router-link to="/login" class="btn btn-outline-secondary">管理員登入</router-link>
       </div>
       <!-- 地圖區 -->
@@ -27,12 +27,12 @@
       </div>
       <!-- 訂閱欄位 -->
       <div class="col-md-4 d-flex flex-column justify-content-end">
-        <div class="socialLink d-flex justify-content-end mb-3">
+        <div class="socialLink d-flex justify-content-md-end mb-3">
           <a href="https://www.facebook.com/"><i class="bi bi-facebook"></i></a>
           <a href="https://x.com/home"><i class="bi bi-twitter-x"></i></a>
           <a href="https://www.instagram.com/"><i class="bi bi-instagram"></i></a>
         </div>
-        <p class="text-end">© 練習用作品，不得轉載</p>
+        <p class="text-start text-md-end">© 練習用作品，不得轉載</p>
       </div>
     </div>
   </div>
@@ -50,5 +50,8 @@
     font-size: 1.25rem;
     color: #fff;
     transition: 0.3s;
+  }
+  p>a {
+    color: #fff;
   }
 </style>

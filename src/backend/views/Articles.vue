@@ -54,9 +54,10 @@
 </template>
 
 <script>
-import ArticleModal from '@/components/ArticleModal.vue'
-import DelModal from '@/components/DelModal.vue'
-import Pagination from '@/components/Pagination.vue'
+import ArticleModal from '@/backend/components/ArticleModal.vue'
+import DelModal from '@/backend/components/DelModal.vue'
+import Pagination from '@/backend/components/Pagination.vue'
+import { showToast } from '@/methods/Toast'
 export default {
   data () {
     return {
@@ -68,7 +69,6 @@ export default {
     }
   },
   components: {
-    // eslint-disable-next-line vue/no-unused-components
     ArticleModal,
     DelModal,
     Pagination
@@ -80,11 +80,14 @@ export default {
       this.$http.get(api).then(res => {
         if (res.data.success) {
           this.isLoading = false /* 讀取完畢時關閉Loading效果 */
-          console.log(res.data)
           this.articles = res.data.articles
           this.pagination = res.data.pagination
         }
       })
+        .catch((err) => {
+          console.error('API 錯誤：', err)
+          showToast('error', '資料載入失敗')
+        })
     },
     getArticle (id) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/article/${id}`
@@ -93,6 +96,10 @@ export default {
           this.tempArticle = res.data.article
         }
       })
+        .catch((err) => {
+          console.error('API 錯誤：', err)
+          this.showToast('error', '資料載入失敗')
+        })
     },
     openModal (isNew, item) {
       if (isNew) {
@@ -126,7 +133,6 @@ export default {
       const articleComponent = this.$refs.articleModal
       this.$http[httpMethod](api, { data: this.tempArticle })
         .then((res) => {
-          console.log(res)
           articleComponent.hideModal()
           if (res.data.success) {
             this.getArticles()
@@ -136,8 +142,8 @@ export default {
           }
         })
         .catch((err) => {
+          console.error('API 錯誤：', err)
           this.showToast('error', '更新失敗，請確認是否有欄位未填寫')
-          console.error('更新錯誤：', err.message)
         })
     },
     openDelArticleModal (item) {
@@ -148,11 +154,14 @@ export default {
     delArticle () {
       const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/article/${this.tempArticle.id}`
       this.$http.delete(url).then((res) => {
-        console.log(res.data)
         const delComponent = this.$refs.delModal
         delComponent.hideModal()
         this.getArticles()
       })
+        .catch((err) => {
+          console.error('API 錯誤：', err)
+          this.showToast('error', '資料刪除失敗')
+        })
     }
   },
   created () {

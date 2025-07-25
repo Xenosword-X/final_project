@@ -2,14 +2,17 @@
   <div class="my-5 row justify-content-center">
     <form class="col-md-6" @submit.prevent="payOrder">
       <!-- 標題 -->
-      <div class="text-center mb-4">
+      <div class="text-center mb-2">
         <h3 class="fw-bold text-primary">
           <i class="bi bi-receipt"></i> 訂單明細確認
         </h3>
         <p class="text-muted">請再次確認以下資訊後完成付款</p>
       </div>
-
-      <!-- 購買清單 -->
+    </form>
+  </div>
+  <!-- 購買清單 -->
+  <div class="row justify-content-center">
+    <div class="col-md-6">
       <div class="card shadow-sm mb-4">
         <div class="card-header bg-primary text-white fw-bold">
           <i class="bi bi-cart4"></i> 購買商品清單
@@ -39,10 +42,13 @@
           </table>
         </div>
       </div>
-
-      <!-- 收件人資訊 -->
+    </div>
+  </div>
+  <!-- 收件人資訊 -->
+  <div class="row justify-content-center">
+    <div class="col-md-6">
       <div class="card shadow-sm mb-4">
-        <div class="card-header bg-danger text-white fw-bold">
+        <div class="card-header bg-primary text-white fw-bold">
           <i class="bi bi-person-lines-fill"></i> 收件人資訊
         </div>
         <div class="card-body">
@@ -75,14 +81,13 @@
           </table>
         </div>
       </div>
-
       <!-- 付款按鈕 -->
       <div class="text-end">
-        <button v-if="!order.is_paid" class="btn btn-success px-4 py-2">
+        <button v-if="!order.is_paid" class="btn btn-success px-4 py-2" @click="payOrder">
           <i class="bi bi-credit-card"></i> 確認付款
         </button>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -100,18 +105,19 @@ export default {
   methods: {
     getOrder () {
       const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/order/${this.orderId}`
-
       this.$http.get(url)
         .then((res) => {
           if (res.data.success) {
             this.order = res.data.order
-            console.log(this.order)
           }
+        })
+        .catch((err) => {
+          console.error('API 錯誤：', err)
+          this.showToast('error', '資料載入失敗')
         })
     },
     payOrder () {
       const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/pay/${this.orderId}`
-
       this.$http.post(url)
         .then((res) => {
           console.log(res)
@@ -120,11 +126,14 @@ export default {
             this.getOrder()
           }
         })
+        .catch((err) => {
+          console.error('API 錯誤：', err)
+          this.showToast('error', '資料載入失敗')
+        })
     }
   },
   created () {
     this.orderId = this.$route.params.orderId
-    console.log(this.orderId)
     this.getOrder()
   }
 }

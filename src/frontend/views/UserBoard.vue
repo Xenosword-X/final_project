@@ -2,13 +2,8 @@
   <div class="background">
     <div class="checkout-layout container py-5">
       <div class="text-center mb-4">
-        <!-- <h2 class="fw-bold title">結帳流程</h2> -->
-        <div class="checkout-steps mt-3">
-          <img src="../assets/fillForm.png" alt="fillForm" style="width:200px"
-          class="img-fluid" v-if="$route.path.includes('/form')">
-          <img src="../assets/comfirmOrder.png" alt="comfirmOrder" style="width:200px"
-          class="img-fluid" v-if="$route.path.includes('/checkout')">
-        </div>
+        <h2 v-if="$route.path.includes('/form')" class="fw-bold title">填寫表單</h2>
+        <h2 v-if="$route.path.includes('/checkout')" class="fw-bold title">確認訂單</h2>
       </div>
       <router-view />
     </div>

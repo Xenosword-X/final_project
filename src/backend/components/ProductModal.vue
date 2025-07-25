@@ -1,5 +1,4 @@
 <template>
-  <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" ref="modal">
   <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content border-0">
@@ -129,7 +128,7 @@
 </template>
 
 <script>
-import modalMixin from '../mixins/modalMixin'
+import modalMixin from '@/mixins/modalMixin'
 export default {
   props: {
     product: {
@@ -162,10 +161,13 @@ export default {
       const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/upload`
       this.$http.post(url, formData)
         .then((res) => {
-          console.log(res.data)
           if (res.data.success) {
             this.tempProduct.imageUrl = res.data.imageUrl
           }
+        })
+        .catch(err => {
+          console.error('API 錯誤：', err)
+          this.showToast('error', '資料新增失敗')
         })
     }
   },

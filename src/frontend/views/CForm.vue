@@ -26,7 +26,8 @@
       </div>
       <div class="mb-3">
         <label for="note" class="form-label">備註</label>
-        <Field id="note" name="note" as="textarea" class="form-control" rows="3"/>
+        <Field id="note" name="note" as="textarea" class="form-control" rows="3"
+        placeholder="備註"/>
       </div>
       <div class="mb-3">
         <label for="image" class="form-label">上傳圖片（讓我們了解你想要圖片的樣式符不符合我們的客製規格）</label>
@@ -57,8 +58,7 @@ export default {
         this.previewUrl = URL.createObjectURL(file)
       }
     },
-    onSubmit (values) {
-      console.log('使用者填寫資料:', values)
+    onSubmit () {
       this.previewUrl = ''
       this.showToast('success', '表單已送出，我們將盡快與您聯繫！')
     }

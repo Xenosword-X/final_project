@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import modalMixin from '../mixins/modalMixin'
+import modalMixin from '@/mixins/modalMixin'
 export default {
   props: {
     article: {
@@ -118,6 +118,10 @@ export default {
           if (res.data.success) {
             this.tempArticle.imageUrl = res.data.imageUrl
           }
+        })
+        .catch(err => {
+          console.error('API 錯誤：', err)
+          this.showToast('error', '資料新增失敗')
         })
     }
   },
