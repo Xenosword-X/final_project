@@ -11,7 +11,7 @@
     }"></div>
     <div class="position-absolute top-50 start-50 translate-middle text-center text-light
     banner-caption">
-      <h1 class="display-1 fw-bold text-light">電玩領域</h1>
+      <h1 class="display-1 fw-bold text-light text-nowrap">電玩領域</h1>
       <hr class="mb-1 mx-n3">
       <h2>歡迎光臨我們的商城</h2>
       <p>您想要的主機遊戲我們都有</p>
@@ -113,7 +113,6 @@
           <button type="submit" class="btn btn-primary px-4">訂閱</button>
         </div>
       </form>
-
       <p class="text-success text-center mt-3" v-if="subscribed">感謝您的訂閱！🎉</p>
     </div>
   </div>
@@ -209,7 +208,6 @@ export default {
 .carousel-control-next {
   width: 3rem;
 }
-
 .carousel-caption {
   background-color: rgba(0, 0, 0, 0.5);
   /* 避免文字太靠邊 */
@@ -217,12 +215,10 @@ export default {
   margin: 0 auto;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
 }
-
 .carousel-item .card {
   min-width: 0;
   /* 保持響應式，避免溢出 */
 }
-
 //卡片內容進行限制，讓樣式統一
 .card-limit {
   display: -webkit-box;
@@ -231,24 +227,19 @@ export default {
   max-height: 3.2em;
   white-space: normal;
 }
-
 .card.h-100 {
   min-height: 400px;
 }
-
 .card-img-top {
   max-height: 200px;
   object-fit: cover;
 }
-
 .main-section {
   @include background-color
 }
-
 .title {
   @include custom-title-style
 }
-
 .banner-caption {
   background-color: rgba(0, 0, 0, 0.4); // 或 rgba(128,128,128,0.3)
   padding: 1.5rem;

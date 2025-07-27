@@ -42,7 +42,7 @@ app.use(VueAxios, axios)
 app.use(router)
 app.use(pinia)
 app.mixin(ToastMessage)
-// eslint-disable-next-line vue/multi-word-component-names
+
 app.component('Loading', Loading)
 app.component('Form', Form)
 app.component('Field', Field)
