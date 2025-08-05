@@ -123,8 +123,9 @@ export default {
         text: '此動作將移除所有商品，無法復原！',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: '是的，清空',
         cancelButtonText: '取消',
+        confirmButtonText: '是的，清空',
+        reverseButtons: true,
         confirmButtonColor: '#d33',
         cancelButtonColor: '#6c757d'
       }).then((res) => {

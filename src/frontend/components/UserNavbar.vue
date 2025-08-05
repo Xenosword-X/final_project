@@ -33,8 +33,9 @@
               data-bs-target="#cartOffcanvas" aria-controls="cartOffcanvas">
               <i class="bi bi-cart3 fs-4"></i>
               <span class="badge rounded-circle position-absolute bg-danger"
+                v-if="cart.carts.length"
                 style="bottom: 0; right: 0; transform: translate(70%, 70%); width: 1.2rem; height: 1.2rem; font-size: 0.75rem; display: flex; justify-content: center; align-items: center;">
-                {{ cart.carts?.length || 0 }}
+                {{ cart.carts.length }}
               </span>
             </button>
           </li>
