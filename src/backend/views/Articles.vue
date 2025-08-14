@@ -9,48 +9,46 @@
   </div>
   <div class="table-responsive">
     <table class="table table-hover align-middle text-nowrap">
-  <thead class="table-light">
-    <tr>
-      <th>標題</th>
-      <th width="120">作者</th>
-      <th width="160">標籤</th>
-      <th width="160">建立時間</th>
-      <th width="100" class="text-center">狀態</th>
-      <th width="200" class="text-center">操作</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr v-for="item in articles" :key="item.id">
-      <td>{{ item.title }}</td>
-      <td>{{ item.author }}</td>
-      <td>
-        <span v-for="t in item.tag" :key="t" class="badge bg-info me-1">{{ t }}</span>
-      </td>
-      <td>{{ new Date(item.create_at).toLocaleString() }}</td>
-      <td class="text-center">
-        <span class="badge" :class="item.isPublic ? 'bg-success' : 'bg-secondary'">
-          {{ item.isPublic ? '已發布' : '以下架' }}
-        </span>
-      </td>
-      <td class="text-center">
-        <div class="btn-group">
-          <button class="btn btn-outline-primary btn-sm" @click="openModal(false, item)">
-            <i class="bi bi-pencil-square"></i> 編輯
-          </button>
-          <button class="btn btn-outline-danger btn-sm" @click="openDelArticleModal(item)">
-            <i class="bi bi-trash"></i> 刪除
-          </button>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
+      <thead class="table-light">
+        <tr>
+          <th>標題</th>
+          <th width="120">作者</th>
+          <th width="160">標籤</th>
+          <th width="160">建立時間</th>
+          <th width="100" class="text-center">狀態</th>
+          <th width="200" class="text-center">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in articles" :key="item.id">
+          <td>{{ item.title }}</td>
+          <td>{{ item.author }}</td>
+          <td>
+            <span v-for="t in item.tag" :key="t" class="badge bg-info me-1">{{ t }}</span>
+          </td>
+          <td>{{ new Date(item.create_at).toLocaleString() }}</td>
+          <td class="text-center">
+            <span class="badge" :class="item.isPublic ? 'bg-success' : 'bg-secondary'">
+              {{ item.isPublic ? '已發布' : '以下架' }}
+            </span>
+          </td>
+          <td class="text-center">
+            <div class="btn-group">
+              <button class="btn btn-outline-primary btn-sm" @click="openModal(false, item)">
+                <i class="bi bi-pencil-square"></i> 編輯
+              </button>
+              <button class="btn btn-outline-danger btn-sm" @click="openDelArticleModal(item)">
+                <i class="bi bi-trash"></i> 刪除
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <pagination :pages="pagination" @emit-pages="getArticles" />
-  <ArticleModal ref="articleModal" :article="tempArticle" :isNew="isNew"
-    @update-article="updateArticle"
-  />
-  <DelModal :item="tempArticle" ref="delModal" @del-item="delArticle"/>
+  <ArticleModal ref="articleModal" :article="tempArticle" :isNew="isNew" @update-article="updateArticle" />
+  <DelModal :item="tempArticle" ref="delModal" @del-item="delArticle" />
 </template>
 
 <script>
@@ -84,8 +82,7 @@ export default {
           this.pagination = res.data.pagination
         }
       })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           showToast('error', '資料載入失敗')
         })
     },
@@ -96,8 +93,7 @@ export default {
           this.tempArticle = res.data.article
         }
       })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           this.showToast('error', '資料載入失敗')
         })
     },
@@ -141,8 +137,7 @@ export default {
             this.showToast('error', '更新失敗，請確認是否有欄位未填寫')
           }
         })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           this.showToast('error', '更新失敗，請確認是否有欄位未填寫')
         })
     },
@@ -158,8 +153,7 @@ export default {
         delComponent.hideModal()
         this.getArticles()
       })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           this.showToast('error', '資料刪除失敗')
         })
     }

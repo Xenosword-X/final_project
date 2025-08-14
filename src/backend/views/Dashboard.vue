@@ -22,8 +22,7 @@ export default {
           this.$router.push('/login')
         }
       })
-      .catch((err) => {
-        console.error('API 錯誤：', err)
+      .catch(() => {
         this.showToast('error', '資料載入失敗')
       })
   }

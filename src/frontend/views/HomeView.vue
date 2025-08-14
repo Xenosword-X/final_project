@@ -154,8 +154,7 @@ export default {
         .then(res => {
           this.articles = res.data.articles
         })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           this.showToast('error', '資料載入失敗')
         })
     },
@@ -167,8 +166,7 @@ export default {
           this.article = res.data.article
           this.isLoading = false
         })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           this.showToast('error', '資料載入失敗')
         })
     },

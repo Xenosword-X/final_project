@@ -52,9 +52,8 @@ export default {
             this.$router.push('/dashboard/products')
           }
         })
-        .catch((err) => {
+        .catch(() => {
           this.showToast('error', '登入失敗，請確認帳號密碼是否正確')
-          console.error('登入錯誤：', err)
         })
     }
   }

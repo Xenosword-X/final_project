@@ -26,8 +26,7 @@ export const useCartStore = defineStore('cartStore', {
           showToast('success', '已加入購物車')
           this.getCart()
         })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           showToast('error', '資料新增失敗')
         })
     },
@@ -46,8 +45,7 @@ export const useCartStore = defineStore('cartStore', {
           status.isLoading = false
           this.getCart()
         })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           showToast('error', '資料更新失敗')
         })
     },
@@ -63,8 +61,7 @@ export const useCartStore = defineStore('cartStore', {
           this.getCart()
           status.isLoading = false
         })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           showToast('error', '資料刪除失敗')
         })
     },
@@ -78,8 +75,7 @@ export const useCartStore = defineStore('cartStore', {
           this.getCart()
           status.isLoading = false
         })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           showToast('error', '資料刪除失敗')
         })
     },
@@ -95,8 +91,7 @@ export const useCartStore = defineStore('cartStore', {
           this.coupon_code = ''
           status.isLoading = false
         })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           status.isLoading = false
           showToast('error', '該優惠券不存在')
         })
@@ -109,8 +104,7 @@ export const useCartStore = defineStore('cartStore', {
         this.cart = res.data.data
         status.isLoading = false
       })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           showToast('error', '資料載入失敗')
         })
     }

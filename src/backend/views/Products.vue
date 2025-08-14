@@ -82,8 +82,7 @@ export default {
           this.pagination = res.data.pagination
         }
       })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           this.showToast('error', '資料載入失敗')
         })
     },
@@ -116,9 +115,8 @@ export default {
             this.showToast('success', '更新成功')
           }
         })
-        .catch((err) => {
+        .catch(() => {
           this.showToast('error', '更新失敗，請確認是否有欄位未填寫')
-          console.error('更新錯誤：', err)
         })
     },
     // 開啟刪除 ModalAdd commentMore actions
@@ -135,8 +133,7 @@ export default {
         delComponent.hideModal()
         this.getProducts()
       })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           this.showToast('error', '資料刪除失敗')
         })
     }

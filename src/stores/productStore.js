@@ -18,8 +18,7 @@ export const useProductStore = defineStore('productStore', {
           this.products = res.data.products
           status.isLoading = false
         })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           this.showToast('error', '資料載入失敗')
         })
     }

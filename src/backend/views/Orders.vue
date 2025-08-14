@@ -87,8 +87,7 @@ export default {
             this.pagination = res.data.pagination
           }
         })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           this.showToast('error', '資料載入失敗')
         })
     },
@@ -113,8 +112,7 @@ export default {
           this.isLoading = false
           this.getOrders()
         })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           this.showToast('error', '資料更新失敗')
         })
     },
@@ -126,8 +124,7 @@ export default {
           delComponent.hideModal()
           this.getOrders()
         })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           this.showToast('error', '資料刪除失敗')
         })
     },

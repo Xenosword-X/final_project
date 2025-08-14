@@ -111,8 +111,7 @@ export default {
             this.order = res.data.order
           }
         })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           this.showToast('error', '資料載入失敗')
         })
     },
@@ -126,8 +125,7 @@ export default {
             this.getOrder()
           }
         })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           this.showToast('error', '資料載入失敗')
         })
     }

@@ -85,8 +85,7 @@ export default {
           this.pagination = res.data.pagination
           this.isLoading = false
         })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           this.showToast('error', '資料載入失敗')
         })
     },
@@ -133,8 +132,7 @@ export default {
             )
           }
         })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           this.showToast('error', '資料載入失敗')
         })
     },
@@ -146,8 +144,7 @@ export default {
         delComponent.hideModal()
         this.getCoupons()
       })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           this.showToast('error', '資料刪除失敗')
         })
     },

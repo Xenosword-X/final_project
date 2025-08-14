@@ -68,8 +68,7 @@ export default {
             this.product = res.data.product
           }
         })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           this.showToast('error', '資料載入失敗')
         })
     },
@@ -86,8 +85,7 @@ export default {
           this.showToast('success', '已加入購物車')
           this.$router.push('/cart')
         })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           this.showToast('error', '資料新增失敗')
         })
     }

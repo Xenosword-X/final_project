@@ -147,8 +147,7 @@ export default {
           const orderId = res.data.orderId
           this.$router.push(`/user/checkout/${orderId}`)
         })
-        .catch((err) => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           this.showToast('error', '資料新增失敗')
         })
     }
