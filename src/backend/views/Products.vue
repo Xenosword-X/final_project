@@ -77,7 +77,6 @@ export default {
       this.$http.get(api).then(res => {
         if (res.data.success) {
           this.isLoading = false /* 讀取完畢時關閉Loading效果 */
-          console.log(res.data)
           this.products = res.data.products
           this.pagination = res.data.pagination
         }
@@ -128,7 +127,6 @@ export default {
     delProduct () {
       const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${this.tempProduct.id}`
       this.$http.delete(url).then((res) => {
-        console.log(res.data)
         const delComponent = this.$refs.delModal
         delComponent.hideModal()
         this.getProducts()

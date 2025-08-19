@@ -165,8 +165,7 @@ export default {
             this.tempProduct.imageUrl = res.data.imageUrl
           }
         })
-        .catch(err => {
-          console.error('API 錯誤：', err)
+        .catch(() => {
           this.showToast('error', '資料新增失敗')
         })
     }
